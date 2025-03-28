@@ -6,13 +6,13 @@
     "src/main/resources/front/front"  
   ],
   "scripts": {
-    "admin:serve": "npm run serve --prefix src/main/resources/admin",
-    "admin:build": "npm run build --prefix src/main/resources/admin",
-    "admin:lint": "npm run lint --prefix src/main/resources/admin",
+    "admin:serve": "npm run serve --prefix src/main/resources/admin/admin",
+    "admin:build": "npm run build --prefix src/main/resources/admin/admin",
+    "admin:lint": "npm run lint --prefix src/main/resources/admin/admin",
 
-    "front:serve": "npm run serve --prefix src/main/resources/front",
-    "front:build": "npm run build --prefix src/main/resources/front",
-    "front:lint": "npm run lint --prefix src/main/resources/front",
+    "front:serve": "npm run serve --prefix src/main/resources/front/front",
+    "front:build": "npm run build --prefix src/main/resources/front/front",
+    "front:lint": "npm run lint --prefix src/main/resources/front/front",
 
     "serve:all": "npm-run-all --parallel admin:serve front:serve",
     "build:all": "npm-run-all --parallel admin:build front:build",
