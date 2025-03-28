@@ -1,6 +1,24 @@
 {
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "src/main/resources/admin/admin",  
+    "src/main/resources/front/front"  
+  ],
   "scripts": {
-    "admin:build:cross": "npm run build --prefix src/main/resources/admin",
-    "front:build:cross": "npm run build --prefix src/main/resources/front"
+    "admin:serve": "npm run serve --prefix src/main/resources/admin",
+    "admin:build": "npm run build --prefix src/main/resources/admin",
+    "admin:lint": "npm run lint --prefix src/main/resources/admin",
+
+    "front:serve": "npm run serve --prefix src/main/resources/front",
+    "front:build": "npm run build --prefix src/main/resources/front",
+    "front:lint": "npm run lint --prefix src/main/resources/front",
+
+    "serve:all": "npm-run-all --parallel admin:serve front:serve",
+    "build:all": "npm-run-all --parallel admin:build front:build",
+    "lint:all": "npm-run-all --parallel admin:lint front:lint"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"  
   }
 }
