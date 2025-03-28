@@ -15,9 +15,6 @@ import xueshengAdd from '../pages/xuesheng/add'
 import zixishiList from '../pages/zixishi/list'
 import zixishiDetail from '../pages/zixishi/detail'
 import zixishiAdd from '../pages/zixishi/add'
-import kechengxinxiList from '../pages/kechengxinxi/list'
-import kechengxinxiDetail from '../pages/kechengxinxi/detail'
-import kechengxinxiAdd from '../pages/kechengxinxi/add'
 import yuyuexinxiList from '../pages/yuyuexinxi/list'
 import yuyuexinxiDetail from '../pages/yuyuexinxi/detail'
 import yuyuexinxiAdd from '../pages/yuyuexinxi/add'
@@ -87,18 +84,6 @@ export default new VueRouter({
 				{
 					path: 'zixishiAdd',
 					component: zixishiAdd
-				},
-				{
-					path: 'kechengxinxi',
-					component: kechengxinxiList
-				},
-				{
-					path: 'kechengxinxiDetail',
-					component: kechengxinxiDetail
-				},
-				{
-					path: 'kechengxinxiAdd',
-					component: kechengxinxiAdd
 				},
 				{
 					path: 'yuyuexinxi',

@@ -4,7 +4,6 @@
 </div>
 </template>
 <script>
-//0
 import router from '@/router/router-static'
 import * as echarts from 'echarts'
 export default {

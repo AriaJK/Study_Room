@@ -17,7 +17,6 @@ import center from '@/views/center'
     import zixishi from '@/views/modules/zixishi/list'
     import qiandaoxinxi from '@/views/modules/qiandaoxinxi/list'
     import yuyuexinxi from '@/views/modules/yuyuexinxi/list'
-    import kechengxinxi from '@/views/modules/kechengxinxi/list'
     import config from '@/views/modules/config/list'
 
 
@@ -77,11 +76,6 @@ const routes = [{
 	path: '/yuyuexinxi',
         name: '预约信息',
         component: yuyuexinxi
-      }
-      ,{
-	path: '/kechengxinxi',
-        name: '课程信息',
-        component: kechengxinxi
       }
       ,{
 	path: '/config',

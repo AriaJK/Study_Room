@@ -10,10 +10,6 @@ export default {
             url: '/index/zixishi'
         },
         {
-            name: '课程信息',
-            url: '/index/kechengxinxi'
-        },
-        {
             name: '公告资讯',
             url: '/index/news'
         },

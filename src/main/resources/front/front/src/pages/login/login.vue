@@ -321,18 +321,7 @@ export default {
               ],
               menu: "自习室管理",
             },
-            {
-              child: [
-                {
-                  appFrontIcon: "cuIcon-goods",
-                  buttons: ["新增", "查看", "修改", "删除"],
-                  menu: "课程信息",
-                  menuJump: "列表",
-                  tableName: "kechengxinxi",
-                },
-              ],
-              menu: "课程信息管理",
-            },
+            
             {
               child: [
                 {
@@ -400,18 +389,7 @@ export default {
               ],
               menu: "自习室模块",
             },
-            {
-              child: [
-                {
-                  appFrontIcon: "cuIcon-phone",
-                  buttons: ["查看"],
-                  menu: "课程信息列表",
-                  menuJump: "列表",
-                  tableName: "kechengxinxi",
-                },
-              ],
-              menu: "课程信息模块",
-            },
+            
           ],
           hasBackLogin: "是",
           hasBackRegister: "否",
@@ -472,18 +450,7 @@ export default {
               ],
               menu: "自习室模块",
             },
-            {
-              child: [
-                {
-                  appFrontIcon: "cuIcon-phone",
-                  buttons: ["查看"],
-                  menu: "课程信息列表",
-                  menuJump: "列表",
-                  tableName: "kechengxinxi",
-                },
-              ],
-              menu: "课程信息模块",
-            },
+            
           ],
           hasBackLogin: "是",
           hasBackRegister: "否",
