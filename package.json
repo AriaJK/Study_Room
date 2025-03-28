@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "admin:dev": "cd admin && npm run dev",
-    "front:build": "cd front && npm run build"
+    "admin:dev": "cd src/main/resources/admin/admin && npm run build",
+    "front:build": "cd src/main/resources/front/front && npm run build"
   }
 }
