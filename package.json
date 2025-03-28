@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "admin:dev": "cd src/main/resources/admin/admin && npm run build",
-    "front:build": "cd src/main/resources/front/front && npm run build"
+    "admin:build:cross": "npm run build --prefix src/main/resources/admin",
+    "front:build:cross": "npm run build --prefix src/main/resources/front"
   }
 }
