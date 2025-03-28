@@ -3,7 +3,7 @@
 
 <mapper namespace="com.dao.ZixishiDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.entity.ZixishiEntity" id="zixishiMap">
         <result property="mingcheng" column="mingcheng"/>
         <result property="tupian" column="tupian"/>
@@ -16,29 +16,19 @@
         <result property="xiangqing" column="xiangqing"/>
     </resultMap>
 
-	<select id="selectListVO"
-		resultType="com.entity.vo.ZixishiVO" >
-		SELECT * FROM zixishi  zixishi         
-        <where> 1=1 ${ew.sqlSegment}</where>
-	</select>
-	
-	<select id="selectVO"
-		resultType="com.entity.vo.ZixishiVO" >
-		SELECT  zixishi.* FROM zixishi  zixishi 	
- 		<where> 1=1 ${ew.sqlSegment}</where>
-	</select>
 
     <select id="selectListView"
-		resultType="com.entity.view.ZixishiView" >
+            resultType="com.entity.view.ZixishiView">
 
-		SELECT  zixishi.* FROM zixishi  zixishi 	        
-        <where> 1=1 ${ew.sqlSegment}</where>
-	</select>
-	
-	<select id="selectView"
-		resultType="com.entity.view.ZixishiView" >
-		SELECT * FROM zixishi  zixishi <where> 1=1 ${ew.sqlSegment}</where>
-	</select>
-	
+        SELECT zixishi.* FROM zixishi zixishi
+        <where>1=1 ${ew.sqlSegment}</where>
+    </select>
+
+    <select id="selectView"
+            resultType="com.entity.view.ZixishiView">
+        SELECT * FROM zixishi zixishi
+        <where>1=1 ${ew.sqlSegment}</where>
+    </select>
+
 
 </mapper>

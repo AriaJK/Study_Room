@@ -49,9 +49,6 @@ public class CommonController{
     private ConfigService configService;    
 	/**
 	 * 获取table表中的column列表(联动接口)
-	 * @param table
-	 * @param column
-	 * @return
 	 */
 	@IgnoreAuth
 	@RequestMapping("/option/{tableName}/{columnName}")
@@ -77,9 +74,6 @@ public class CommonController{
 	
 	/**
 	 * 根据table中的column获取单条记录
-	 * @param table
-	 * @param column
-	 * @return
 	 */
 	@IgnoreAuth
 	@RequestMapping("/follow/{tableName}/{columnName}")
@@ -94,9 +88,6 @@ public class CommonController{
 	
 	/**
 	 * 修改table表的sfsh状态
-	 * @param table
-	 * @param map
-	 * @return
 	 */
 	@RequestMapping("/sh/{tableName}")
 	public R sh(@PathVariable("tableName") String tableName, @RequestBody Map<String, Object> map) {
@@ -107,11 +98,6 @@ public class CommonController{
 	
 	/**
 	 * 获取需要提醒的记录数
-	 * @param tableName
-	 * @param columnName
-	 * @param type 1:数字 2:日期
-	 * @param map
-	 * @return
 	 */
 	@IgnoreAuth
 	@RequestMapping("/remind/{tableName}/{columnName}/{type}")
@@ -227,10 +213,6 @@ public class CommonController{
 	
     /**
      * 人脸比对
-     * 
-     * @param face1 人脸1
-     * @param face2 人脸2
-     * @return
      */
     @RequestMapping("/matchFace")
     @IgnoreAuth

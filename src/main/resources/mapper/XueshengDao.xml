@@ -3,7 +3,7 @@
 
 <mapper namespace="com.dao.XueshengDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.entity.XueshengEntity" id="xueshengMap">
         <result property="xuehao" column="xuehao"/>
         <result property="mima" column="mima"/>
@@ -14,29 +14,19 @@
         <result property="banji" column="banji"/>
     </resultMap>
 
-	<select id="selectListVO"
-		resultType="com.entity.vo.XueshengVO" >
-		SELECT * FROM xuesheng  xuesheng         
-        <where> 1=1 ${ew.sqlSegment}</where>
-	</select>
-	
-	<select id="selectVO"
-		resultType="com.entity.vo.XueshengVO" >
-		SELECT  xuesheng.* FROM xuesheng  xuesheng 	
- 		<where> 1=1 ${ew.sqlSegment}</where>
-	</select>
 
     <select id="selectListView"
-		resultType="com.entity.view.XueshengView" >
+            resultType="com.entity.view.XueshengView">
 
-		SELECT  xuesheng.* FROM xuesheng  xuesheng 	        
-        <where> 1=1 ${ew.sqlSegment}</where>
-	</select>
-	
-	<select id="selectView"
-		resultType="com.entity.view.XueshengView" >
-		SELECT * FROM xuesheng  xuesheng <where> 1=1 ${ew.sqlSegment}</where>
-	</select>
-	
+        SELECT xuesheng.* FROM xuesheng xuesheng
+        <where>1=1 ${ew.sqlSegment}</where>
+    </select>
+
+    <select id="selectView"
+            resultType="com.entity.view.XueshengView">
+        SELECT * FROM xuesheng xuesheng
+        <where>1=1 ${ew.sqlSegment}</where>
+    </select>
+
 
 </mapper>

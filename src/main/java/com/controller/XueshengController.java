@@ -42,9 +42,6 @@ import java.io.IOException;
 /**
  * 学生
  * 后端接口
- * @author 
- * @email 
- * @date 2023-03-08 10:25:19
  */
 @RestController
 @RequestMapping("/xuesheng")

@@ -24,9 +24,6 @@ import com.baomidou.mybatisplus.enums.IdType;
 /**
  * 学生
  * 数据库通用操作实体类（普通增删改查）
- * @author 
- * @email 
- * @date 2023-03-08 10:25:19
  */
 @TableName("xuesheng")
 public class XueshengEntity<T> implements Serializable {
