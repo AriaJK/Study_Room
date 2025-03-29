@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "build:admin": "cd src/main/resources/admin/admin && npm run build",
-    "build:front": "cd src/main/resources/front/front && npm run build",
+    "build:admin": "cd src/main/resources/admin/admin/src && npm run build",
+    "build:front": "cd src/main/resources/front/front/src && npm run build",
     "build": "npm run build:admin && npm run build:front",
-    "dev:admin": "cd src/main/resources/admin/admin && npm run serve",
-    "dev:front": "cd src/main/resources/front/front && npm run serve"
+    "dev:admin": "cd src/main/resources/admin/admin/src && npm run serve",
+    "dev:front": "cd src/main/resources/front/front/src && npm run serve"
   }
 }
