@@ -27,11 +27,11 @@ public class HttpClientUtils {
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             String line;
             while ((line = in.readLine()) != null) {
-                res += line+"\n";
+                res += line + "\n";
             }
             in.close();
             return res;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

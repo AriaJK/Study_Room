@@ -1,42 +1,40 @@
 package com.utils;
 
-import java.util.Random;
-import java.util.ArrayList;
-import org.springframework.stereotype.Component;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import org.apache.poi.ss.usermodel.DateUtil;
-import java.util.Objects;
-import com.alibaba.fastjson.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.baidu.aip.face.AipFace;
 import com.baidu.aip.face.MatchRequest;
 import com.baidu.aip.util.Base64Util;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.entity.ConfigEntity;
 import com.service.ConfigService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.springframework.util.ResourceUtils;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
 
 @Component
 public class CommonUtil {
     private static AipFace client = null;
-    
-    private static ConfigService configService;    
-    
+
+    private static ConfigService configService;
+
     @Autowired
     public void setConfigService(ConfigService configService) {
         CommonUtil.configService = configService;
     }
-	/**
+
+    /**
      * 获取随机字符串
-     *
-     * @param num
-     * @return
      */
     public static String getRandomString(Integer num) {
         String base = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -49,22 +47,19 @@ public class CommonUtil {
         return sb.toString();
     }
 
-	/**
-	 * 获取随机验证码
-	 *
-	 * @param num
-	 * @return
-	 */
-	public static String getRandomNumber(Integer num) {
-	    String base = "0123456789";
-	    Random random = new Random();
-	    StringBuffer sb = new StringBuffer();
-	    for (int i = 0; i < num; i++) {
-	        int number = random.nextInt(base.length());
-	        sb.append(base.charAt(number));
-	    }
-	    return sb.toString();
-	}
+    /**
+     * 获取随机验证码
+     */
+    public static String getRandomNumber(Integer num) {
+        String base = "0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < num; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
+    }
 
     public static String getCellValue(Cell cell) {
         String resultValue = "";
@@ -98,7 +93,7 @@ public class CommonUtil {
                 Object val = cell.getNumericCellValue();
                 // POI Excel 日期格式转换
                 String formatDate = "";
-                switch (cell.getCellStyle().getDataFormat()){
+                switch (cell.getCellStyle().getDataFormat()) {
                     case 14:
                         formatDate = "yyyy-MM-dd";
                         break;
@@ -127,9 +122,9 @@ public class CommonUtil {
                         formatDate = "yyyy-MM-dd HH:mm:ss";
                         break;
                 }
-                if(!"".equals(formatDate)){
+                if (!"".equals(formatDate)) {
                     resultValue = new SimpleDateFormat(formatDate).format(DateUtil.getJavaDate((Double) val));
-                }else{
+                } else {
                     resultValue = new DecimalFormat("#.######").format(cell.getNumericCellValue());
                 }
                 break;
@@ -141,22 +136,15 @@ public class CommonUtil {
     }
 
 
-
-
-
     /**
      * 人脸比对
-     * 
-     * @param face1 人脸1
-     * @param face2 人脸2
-     * @return
      */
     public static R matchFace(String face1, String face2) {
-        if(client==null) {
+        if (client == null) {
             String APIKey = configService.selectOne(new EntityWrapper<ConfigEntity>().eq("name", "APIKey")).getValue();
             String SecretKey = configService.selectOne(new EntityWrapper<ConfigEntity>().eq("name", "SecretKey")).getValue();
             String token = BaiduUtil.getAuth(APIKey, SecretKey);
-            if(token==null) {
+            if (token == null) {
                 return R.error("请在配置管理中正确配置APIKey和SecretKey");
             }
             client = new AipFace(null, APIKey, SecretKey);
@@ -166,12 +154,12 @@ public class CommonUtil {
         org.json.JSONObject res = null;
         try {
             File path = new File(ResourceUtils.getURL("classpath:static").getPath());
-            if(!path.exists()) {
+            if (!path.exists()) {
                 path = new File("");
             }
-            File upload = new File(path.getAbsolutePath(),"/upload/");
-            File file1 = new File(upload.getAbsolutePath()+"/"+face1);
-            File file2 = new File(upload.getAbsolutePath()+"/"+face2);
+            File upload = new File(path.getAbsolutePath(), "/upload/");
+            File file1 = new File(upload.getAbsolutePath() + "/" + face1);
+            File file2 = new File(upload.getAbsolutePath() + "/" + face2);
             String img1 = Base64Util.encode(FileUtil.FileToByte(file1));
             String img2 = Base64Util.encode(FileUtil.FileToByte(file2));
             MatchRequest req1 = new MatchRequest(img1, "BASE64");
@@ -181,15 +169,15 @@ public class CommonUtil {
             requests.add(req2);
             res = client.match(requests);
             System.out.println(res);
-            if((int)res.get("error_code")!=0) {
-                return R.ok().put("score",0);
+            if ((int) res.get("error_code") != 0) {
+                return R.ok().put("score", 0);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return R.error("文件不存在");
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
         return R.ok().put("score", com.alibaba.fastjson.JSONObject.parse(res.getJSONObject("result").get("score").toString()));
     }
 }

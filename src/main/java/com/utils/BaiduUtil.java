@@ -15,11 +15,11 @@ import com.baidu.aip.ocr.AipOcr;
 import com.baidu.aip.imageclassify.AipImageClassify;
 
 /**
-* 类说明 : 
-*/
+ * 类说明 :
+ */
 
 public class BaiduUtil {
-	
+
     /**
      * 根据经纬度获得省市区信息
      */
@@ -27,28 +27,29 @@ public class BaiduUtil {
         String location = lat + "," + lng;
         try {
             //拼装url
-            String url = "http://api.map.baidu.com/reverse_geocoding/v3/?ak="+key+"&output=json&coordtype=wgs84ll&location="+location;
+            String url = "http://api.map.baidu.com/reverse_geocoding/v3/?ak=" + key + "&output=json&coordtype=wgs84ll&location=" + location;
             String result = HttpClientUtils.doGet(url);
             JSONObject o = new JSONObject(result);
             Map<String, String> area = new HashMap<>();
-			area.put("province", o.getJSONObject("result").getJSONObject("addressComponent").getString("province"));
-			area.put("city", o.getJSONObject("result").getJSONObject("addressComponent").getString("city"));
-			area.put("district", o.getJSONObject("result").getJSONObject("addressComponent").getString("district"));
-			area.put("street", o.getJSONObject("result").getJSONObject("addressComponent").getString("street"));
+            area.put("province", o.getJSONObject("result").getJSONObject("addressComponent").getString("province"));
+            area.put("city", o.getJSONObject("result").getJSONObject("addressComponent").getString("city"));
+            area.put("district", o.getJSONObject("result").getJSONObject("addressComponent").getString("district"));
+            area.put("street", o.getJSONObject("result").getJSONObject("addressComponent").getString("street"));
             return area;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     /**
-	     * 获取API访问token
-	     * 该token有一定的有效期，需要自行管理，当失效时需重新获取.
-	     * @param ak - 百度云官网获取的 API Key
-	     * @param sk - 百度云官网获取的 Securet Key
-	     * @return assess_token
-	     */
+     * 获取API访问token
+     * 该token有一定的有效期，需要自行管理，当失效时需重新获取.
+     *
+     * @param ak - 百度云官网获取的 API Key
+     * @param sk - 百度云官网获取的 Securet Key
+     * @return assess_token
+     */
     public static String getAuth(String ak, String sk) {
         // 获取token地址
         String authHost = "https://aip.baidubce.com/oauth/2.0/token?";
@@ -101,17 +102,18 @@ public class BaiduUtil {
 
     /**
      * 识别图片上的文本内容，转成文字字符串返回
+     *
      * @param imagePath 图片文件的路径
      */
-    public static String generalString(String imagePath, boolean isNewline){
-        try{
+    public static String generalString(String imagePath, boolean isNewline) {
+        try {
             HashMap<String, String> options = new HashMap<String, String>();
             options.put("language_type", "CHN_ENG"); //CHN_ENG:中英文混合， ENG:英文
             options.put("detect_direction", "true"); //是否检测图像朝向，默认不检测，即：false
             options.put("detect_language", "true"); //是否检测语言，默认不检测。
             options.put("probability", "false"); //是否返回识别结果中每一行的置信度
             //通用文字识别
-            if(ocrClient==null) {
+            if (ocrClient == null) {
                 ocrClient = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
                 ocrClient.setConnectionTimeoutInMillis(5000);
                 ocrClient.setSocketTimeoutInMillis(60000);
@@ -119,36 +121,36 @@ public class BaiduUtil {
             JSONObject jsonObject = ocrClient.basicAccurateGeneral(imagePath, options);
             String result = mergeString(jsonObject, isNewline);
             return result;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
     }
 
 
-    private static String mergeString(JSONObject jsonObject, boolean isNewline){
-        if(jsonObject == null){
+    private static String mergeString(JSONObject jsonObject, boolean isNewline) {
+        if (jsonObject == null) {
             return "";
         }
 
-        if(jsonObject.has("words_result") && jsonObject.has("words_result_num")){
+        if (jsonObject.has("words_result") && jsonObject.has("words_result_num")) {
             int wordsResultNum = jsonObject.getInt("words_result_num");
-            if(wordsResultNum > 0){
+            if (wordsResultNum > 0) {
                 StringBuilder sb = new StringBuilder();
 
                 JSONArray jsonArray = jsonObject.getJSONArray("words_result");
                 int len = jsonArray.length();
-                for(int i=0;i<len;i++) {
-                    JSONObject obj = (JSONObject)jsonArray.get(i);
-                    if(isNewline){
+                for (int i = 0; i < len; i++) {
+                    JSONObject obj = (JSONObject) jsonArray.get(i);
+                    if (isNewline) {
                         sb.append(obj.get("words") + "\n");
-                    }else{
+                    } else {
                         sb.append(obj.get("words"));
                     }
                 }
                 return sb.toString();
             }
-        }else{
+        } else {
             return jsonObject.toString();
         }
         return null;
