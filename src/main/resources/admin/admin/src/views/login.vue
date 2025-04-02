@@ -7,7 +7,7 @@
         backgroundAttachment: 'fixed',
         alignItems: 'center',
         background:
-          'url(login_bg.jpg))',
+          'url(login_bg.jpg)',
         display: 'flex',
         width: '100%',
         backgroundSize: 'cover',
