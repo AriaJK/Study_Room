@@ -7,7 +7,7 @@
         backgroundAttachment: 'fixed',
         alignItems: 'center',
         background:
-          'url(http://codegen.caihongy.cn/20220730/2be727de991f410c97c83c9a65acacc8.png)',
+          'url(login_bg.jpg))',
         display: 'flex',
         width: '100%',
         backgroundSize: 'cover',
