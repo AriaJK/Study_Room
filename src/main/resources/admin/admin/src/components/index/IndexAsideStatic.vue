@@ -3,7 +3,7 @@
 		<!-- 竖向 -->
 		<el-scrollbar wrap-class="scrollbar-wrapper">
 			<el-menu :default-openeds="[]" :unique-opened="true" :style='{"border":0,"padding":"0","listStyle":"none","margin":"0","position":"relative","background":"#FFF"}' class="el-menu-vertical-demo" default-active="0">
-				<el-image v-if="false" :style='{"width":"44px","margin":"10px auto","objectFit":"cover","borderRadius":"100%","display":"block","height":"44px"}' src="http://codegen.caihongy.cn/20201114/7856ba26477849ea828f481fa2773a95.jpg" fit="cover"></el-image>
+				<el-image v-if="false" :style='{"width":"44px","margin":"10px auto","objectFit":"cover","borderRadius":"100%","display":"block","height":"44px"}' src="login_bg.jpg" fit="cover"></el-image>
 				<!-- <el-menu-item index="0" @click="menuHandler('')">
 					<i v-if='true' :style='{"width":"34px","verticalAlign":"middle","margin":"0 3px","fontSize":"18px","color":"inherit","textAlign":"center"}' class="el-icon-menu el-icon-s-home" />
 					<span :style='{"color":"inherit","verticalAlign":"middle","fontSize":"14px"}'>系统首页</span>
@@ -182,7 +182,7 @@ export default {
 		
 		.el-menu-vertical-demo>.el-menu-item:hover {
 						color: #fff;
-						background: url(http://codegen.caihongy.cn/20220730/b04f7529193047a39145016cc9c4a627.png) center center no-repeat;
+						background: 'url(login_bg.jpg)' center center no-repeat;
 					}
 		
 		.el-menu-vertical-demo .el-submenu /deep/ .el-submenu__title {
@@ -202,7 +202,7 @@ export default {
 		
 		.el-menu-vertical-demo .el-submenu /deep/ .el-submenu__title:hover {
 						color: #fff;
-						background: url(http://codegen.caihongy.cn/20220730/b04f7529193047a39145016cc9c4a627.png) center center no-repeat;
+						background: 'url(login_bg.jpg)' center center no-repeat;
 					}
 		
 		.el-menu-vertical-demo .el-submenu /deep/ .el-submenu__title .el-submenu__icon-arrow {

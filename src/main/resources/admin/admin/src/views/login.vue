@@ -356,7 +356,7 @@ export default {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background: url(http://codegen.caihongy.cn/20220730/2be727de991f410c97c83c9a65acacc8.png);
+  background: 'url(login_bg.jpg)';
 
   .list-item /deep/ .el-input .el-input__inner {
     border: 0px solid rgba(64, 158, 255, 1);

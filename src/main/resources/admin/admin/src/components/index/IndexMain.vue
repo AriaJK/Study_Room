@@ -5,7 +5,7 @@
 			<index-header :style='{"boxShadow":"0 1px 6px rgba(64, 158, 255, .2)","padding":"8px 20px","alignItems":"center","background":"#78ABC3","display":"flex","width":"100%","position":"relative","justifyContent":"center","zIndex":"1"}'></index-header>
 			<index-aside v-if="'vertical' == 'horizontal'" :style='{"width":"100%","borderColor":"#efefef","borderStyle":"solid","background":"#304156","borderWidth":"0 0 1px 0","height":"auto"}'></index-aside>
 			<bread-crumbs :title="title" :style='{"padding":"0 20px","margin":"15px auto 0 auto","borderColor":"#eee","alignItems":"center","borderWidth":"0 0 1px 0","background":"#97C9D6","display":"flex","width":"calc(100% - 60px)","borderStyle":"solid","height":"40px"}' class="bread-crumbs"></bread-crumbs>
-			<router-view :style='{"padding":"30px","flexWrap":"wrap","background":"url(http://codegen.caihongy.cn/20220730/cb2195540cde42b7abf14af25c15da3e.png) center center/cover fixed no-repeat","display":"flex","height":"calc(100vh - 120px)"}' class="router-view" style="height:auto;background: transparent;"></router-view>
+			<router-view :style='{"padding":"30px","flexWrap":"wrap","background":"url(login_bg.jpg) center center/cover fixed no-repeat","display":"flex","height":"calc(100vh - 120px)"}' class="router-view" style="height:auto;background: transparent;"></router-view>
 		</el-main>
 	</div>
 </template>

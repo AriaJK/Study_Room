@@ -1,7 +1,7 @@
 <template>
 	<div class="navbar">
 		<div class="title" :style='{"display":"block"}'>
-			<el-image v-if="false" class="title-img" :style='{"width":"44px","objectFit":"cover","borderRadius":"100%","float":"left","height":"44px"}' src="http://codegen.caihongy.cn/20201114/7856ba26477849ea828f481fa2773a95.jpg" fit="cover" />
+			<el-image v-if="false" class="title-img" :style='{"width":"44px","objectFit":"cover","borderRadius":"100%","float":"left","height":"44px"}' src="login_bg.jpg" fit="cover" />
 			<span class="title-name" :style='{"padding":"0 0 0 12px","lineHeight":"44px","fontSize":"24px","color":"#404B5F","float":"left","fontWeight":"600"}'>{{this.$project.projectName}}</span>
 		</div>
 		<div class="right" :style='{"position":"absolute","right":"20px","top":"8px","display":"flex"}'>
