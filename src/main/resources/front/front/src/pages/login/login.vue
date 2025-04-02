@@ -6,7 +6,7 @@
         minHeight: '100vh',
         alignItems: 'center',
         background:
-          'url(https://miaobi-lite.bj.bcebos.com/miaobi/5mao/b%27LV8xNzMyNzcwOTE4LjE3NTg0MDY%3D%27/0.png?authorization=bce-auth-v1%2FALTAKmda7zOvhZVbRzBLewvCMU%2F2024-11-28T05%3A15%3A18Z%2F-1%2F%2Fd315065ac395b43eb1864a5d8d87335f4d8fe6a6ced0bd24b9e52dc6fdc2a176)',
+          'url(login_bg.jpg)',
         display: 'flex',
         width: '100%',
         backgroundSize: '100% 100%',
