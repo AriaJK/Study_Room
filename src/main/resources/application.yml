@@ -14,11 +14,6 @@ spring:
         username: root
         password: 123456
 
-#        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#        url: jdbc:sqlserver://127.0.0.1:1433;DatabaseName=study_room
-#        username: sa
-#        password: 123456
-
     servlet:
       multipart:
         max-file-size: 300MB
