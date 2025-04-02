@@ -2,7 +2,7 @@
 	<div>
 		<div class="container" :style='{"minHeight":"100vh","backgroundAttachment":"fixed","alignItems":"center","background":"url(http://codegen.caihongy.cn/20220730/09b07a531ff340eda4d49f8b40c70887.png)","display":"flex","width":"100%","backgroundSize":"cover","backgroundPosition":"center center","backgroundRepeat":"no-repeat","justifyContent":"center"}'>
 			<el-form v-if="pageFlag=='register'" :style='{"padding":"40px 0 80px","boxShadow":"0px 4px 10px 0px #78ABC3","margin":"0","outline":"4px solid #78ABC3","borderRadius":"0","outlineOffset":"30px","background":"#fff","width":"500px","height":"auto"}' ref="rgsForm" class="rgs-form" :model="rgsForm">
-				<div v-if="true" :style='{"margin":"0 0 10px 0","color":"#000","textAlign":"center","width":"100%","lineHeight":"44px","fontSize":"26px","textShadow":"4px 4px 2px rgba(120, 171, 195, 0.3)","fontWeight":"bold"}' class="title">高校自习室预约系统 注册</div>
+				<div v-if="true" :style='{"margin":"0 0 10px 0","color":"#000","textAlign":"center","width":"100%","lineHeight":"44px","fontSize":"26px","textShadow":"4px 4px 2px rgba(120, 171, 195, 0.3)","fontWeight":"bold"}' class="title">智慧自习室预约系统 注册</div>
 				<el-form-item :style='{"width":"80%","padding":"0","margin":"0 auto 15px","height":"auto"}' class="list-item" v-if="tableName=='xuesheng'">
 					<div v-if="false" :style='{"width":"64px","lineHeight":"44px","fontSize":"14px","color":"rgba(64, 158, 255, 1)"}' class="lable">学号</div>
 					<el-input  v-model="ruleForm.xuehao"  autocomplete="off" placeholder="学号"  type="text"  />

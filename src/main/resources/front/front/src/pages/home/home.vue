@@ -23,7 +23,7 @@
 
 
 	
-<div class="news" :style='{"border":"2px solid #347BEF","padding":"20px 10px 40px","margin":"50px auto","background":"#fff","width":"40%","position":"relative","height":"auto"}'>
+<div class="news" :style='{"border":"2px solid #347BEF","padding":"20px 10px 40px","margin":"50px auto","background":"#c5e3f6","width":"40%","position":"relative","height":"auto"}'>
 	<div v-if="false" class="idea newsIdea" :style='{"padding":"20px","flexWrap":"wrap","background":"#efefef","justifyContent":"space-between","display":"flex"}'>
 		<div class="box1" :style='{"width":"20%","background":"#fff","height":"80px"}'></div>
 		<div class="box2" :style='{"width":"20%","background":"#fff","height":"80px"}'></div>
@@ -88,7 +88,7 @@
 </div>
 
 
-<div class="lists" :style='{"border":"2px solid #347BEF","padding":"20px 10px 50px","margin":"50px auto","background":"#fff","width":"40%","position":"relative","height":"auto"}'>
+<div class="lists" :style='{"border":"2px solid #347BEF","padding":"20px 10px 50px","margin":"50px auto","background":"#c5e3f6","width":"40%","position":"relative","height":"auto"}'>
 	<div v-if="false" class="idea" :style='{"padding":"20px","flexWrap":"wrap","background":"#efefef","justifyContent":"space-between","display":"flex"}'>
 		<div class="box1" :style='{"width":"20%","background":"#fff","height":"80px"}'></div>
 		<div class="box2" :style='{"width":"20%","background":"#fff","height":"80px"}'></div>
@@ -109,7 +109,7 @@
 	
 	
 	<!-- 样式二 -->
-	<div class="list list2 index-pv1" :style='{"padding":"0 10px","flexWrap":"wrap","background":"#fff","display":"flex","width":"100%","justifyContent":"space-around","height":"auto"}'>
+	<div class="list list2 index-pv1" :style='{"padding":"0 10px","flexWrap":"wrap","background":"#c5e3f6","display":"flex","width":"100%","justifyContent":"space-around","height":"auto"}'>
 		<div :style='{"boxShadow":"0px 4px 10px 0px rgba(0,0,0,0.302)","padding":"20px 0 0 0","margin":"10px 0","background":"#ffff","display":"flex","width":"45%","fontSize":"0","position":"relative","height":"250px"}' v-for="(item,index) in zixishiList" class="list-item animation-box" :key="index" @click="toDetail('zixishiDetail', item)">
 			<img :style='{"width":"50%","margin":"50px 0 0 0","objectFit":"cover","display":"inline-block","height":"180px"}' v-if="preHttp(item.tupian)" :src="item.tupian.split(',')[0]" alt="" />
 			<img :style='{"width":"50%","margin":"50px 0 0 0","objectFit":"cover","display":"inline-block","height":"180px"}' v-else :src="baseUrl +  (item.tupian?item.tupian.split(',')[0]:'')" alt="" />

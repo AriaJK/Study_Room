@@ -1,8 +1,8 @@
 <template>
 	<div class="main-containers">
-		<div class="top-container" :style='{"boxShadow":"0 1px 6px rgba(64, 158, 255, .3)","padding":"0 20px","alignItems":"center","display":"flex","justifyContent":"space-between","overflow":"hidden","top":"0","left":"0","background":"#2e61e1","width":"100%","position":"fixed","height":"64px","zIndex":"1002"}'>
+		<div class="top-container" :style='{"boxShadow":"0 1px 6px rgba(255, 136, 0, .1)","padding":"0 20px","alignItems":"center","display":"flex","justifyContent":"space-between","overflow":"hidden","top":"0","left":"0","background":"linear-gradient(to right, rgb(41, 128, 185), rgb(109, 213, 250), rgb(255, 255, 255))","width":"100%","position":"fixed","height":"64px","zIndex":"1002"}'>
 			<img v-if='false' :style='{"width":"44px","objectFit":"cover","borderRadius":"100%","display":"block","height":"44px"}' src='http://codegen.caihongy.cn/20201114/7856ba26477849ea828f481fa2773a95.jpg'>
-			<div v-if="true" :style='{"fontSize":"20px","color":"#fff","textAlign":"center","flex":"9"}'>高校自习室预约系统 </div>
+			<div v-if="true" :style='{"fontSize":"20px","color":"#fff","textAlign":"center","flex":"9"}'>智慧自习室预约系统 </div>
 			<div>
 				<div v-if="false" :style='{"color":"#666","fontSize":"14px","display":"inline-block"}'>0753-1234567</div>
 				<div v-if="Token" :style='{"color":"#666","fontSize":"14px","display":"inline-block"}'>{{username}}</div>
@@ -12,7 +12,7 @@
 		</div>
 		
 		
-		<div class="body-containers" :style='"horizontal" == "vertical" ? {"minHeight":"100vh","padding":"64px 0 0","margin":"0 0 0 210px","position":"relative","background":"rgba(64, 158, 255, .3)","display":"block"} : {"minHeight":"100vh","padding":"64px 0 0","margin":"0","position":"relative","background":"rgba(0,0,0,0.102)"}'>
+		<div class="body-containers" :style='"horizontal" == "vertical" ? {"minHeight":"100vh","padding":"64px 0 0","margin":"0 0 0 210px","position":"relative","background":"rgba(64, 158, 0, .3)","display":"block"} : {"minHeight":"100vh","padding":"64px 0 0","margin":"0","position":"relative","background":"rgba(0,0,0,0.102)"}'>
 			<div class="menu-preview" :style='{"padding":"0 20px","borderColor":"#efefef","background":"#BFD2FC","borderWidth":"0 0 1px 0","width":"100%","borderStyle":"solid","height":"auto"}'>
 				<el-menu class="el-menu-horizontal-demo" :style='{"border":0,"padding":"10px 0","listStyle":"none","margin":"0","background":"#BFD2FC","display":"flex","position":"relative","justifyContent":"center"}' :default-active="activeIndex" :unique-opened="true" mode="horizontal" :router="true" @select="handleSelect">
 					<el-image v-if="false" :style='{"width":"44px","margin":"8px 10px 8px 0","objectFit":"cover","borderRadius":"100%","float":"left","height":"44px"}' src="http://codegen.caihongy.cn/20201114/7856ba26477849ea828f481fa2773a95.jpg" fit="cover"></el-image>

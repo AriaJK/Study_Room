@@ -1,6 +1,6 @@
 <template>
-<div>
-	<div :style='{"width":"1000px","padding":"20px","margin":"10px auto","borderRadius":"27px","background":"#bfd2fc"}' class="breadcrumb-preview">
+<div :style='{"background":"#bfd2fc"}'>
+	<div :style='{"width":"1000px","padding":"20px","margin":"10px auto","borderRadius":"27px","background":"linear-gradient(to right, rgb(0, 90, 167), rgb(255, 253, 228))"}' class="breadcrumb-preview">
 		<el-breadcrumb :separator="'Ξ'" :style='{"fontSize":"14px","lineHeight":"1"}'>
 			<el-breadcrumb-item>首页</el-breadcrumb-item>
 			<el-breadcrumb-item v-for="(item, index) in breadcrumbItem" :key="index">{{item.name}}</el-breadcrumb-item>
@@ -35,7 +35,7 @@
 	  <el-button v-if="isAuth('zixishi','新增')" :style='{"cursor":"pointer","border":"0","padding":"0px 15px","margin":"0 10px 0 0","outline":"none","color":"#fff","borderRadius":"4px","background":"#2E61E1","width":"auto","fontSize":"14px","lineHeight":"42px","height":"42px"}' type="primary" @click="add('/index/zixishiAdd')"><i v-if="true" :style='{"color":"#fff","margin":"0 10px 0 0","fontSize":"14px"}' class="el-icon-circle-plus-outline"></i>添加</el-button>
     </el-form>
 
-	<div class="list" :style='{"minHeight":"1100px","margin":"0 0 10px","background":"rgba(0,0,0,0.102)","height":"auto"}'>
+	<div class="list" :style='{"minHeight":"1100px","margin":"0 0 10px","background":"rgba(0,0,255,0.102)","height":"auto"}'>
 		<!-- 样式一 -->
 		
 		<!-- 样式二 -->

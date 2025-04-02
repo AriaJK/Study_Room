@@ -4,7 +4,7 @@
 	<div class="container" :style='{"minHeight":"100vh","alignItems":"center","background":"url(https://img2.baidu.com/it/u=3358724089,2401476653&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=466)","display":"flex","width":"100%","backgroundSize":"100% 100%","backgroundPosition":"center center","backgroundRepeat":"no-repeat","justifyContent":"center"}'>
 		<el-form class='rgs-form' v-if="pageFlag=='register'" :style='{"padding":"20px","boxShadow":"0px 4px 10px 0px rgba(0,0,0,0.302)","margin":"0","borderRadius":"10px","left":"15%","background":"#fff","width":"400px","position":"absolute","height":"auto"}' ref="registerForm" :model="registerForm" :rules="rules">
 			<div v-if="false" :style='{"margin":"0 0 10px 0","color":"rgba(64, 158, 255, 1)","textAlign":"center","width":"100%","lineHeight":"44px","fontSize":"20px","textShadow":"4px 4px 2px rgba(64, 158, 255, .5)"}'>USER / REGISTER</div>
-			<div v-if="true" :style='{"width":"100%","margin":"0 0 10px 0","lineHeight":"44px","fontSize":"20px","color":"#174AD7","textAlign":"center"}'>高校自习室预约系统 注册</p></div>
+			<div v-if="true" :style='{"width":"100%","margin":"0 0 10px 0","lineHeight":"44px","fontSize":"20px","color":"#174AD7","textAlign":"center"}'>智慧自习室预约系统 注册</p></div>
 			<el-form-item :style='{"width":"80%","padding":"0","margin":"0 auto 15px","height":"auto"}' v-if="tableName=='xuesheng'" prop="xuehao">
 				<div v-if="false" :style='{"width":"64px","lineHeight":"44px","fontSize":"14px","color":"rgba(64, 158, 255, 1)"}'>学号：</div>
 				<el-input v-model="registerForm.xuehao"  placeholder="请输入学号" />

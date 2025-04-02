@@ -1,11 +1,12 @@
 <template>
-<div>
-	<div :style='{"width":"1000px","padding":"20px","margin":"10px auto","borderRadius":"27px","background":"#bfd2fc"}' class="breadcrumb-preview">
+<div :style='{"background":"#bfd2fc"}'>
+	<div :style='{"width":"1000px","padding":"20px","margin":"10px auto","borderRadius":"27px","background":"linear-gradient(to right, rgb(0, 90, 167), rgb(255, 253, 228))"}' class="breadcrumb-preview">
 		<el-breadcrumb :separator="'Ξ'" :style='{"fontSize":"14px","lineHeight":"1"}'>
 			<el-breadcrumb-item>首页</el-breadcrumb-item>
 			<el-breadcrumb-item v-for="(item, index) in breadcrumbItem" :key="index">{{item.name}}</el-breadcrumb-item>
 		</el-breadcrumb>
 	</div>
+	
 	<div :style='{"width":"1000px","padding":"20px","margin":"10px auto","borderRadius":"27px","background":"#bfd2fc"}' class="breadcrumb-preview">
         <el-form :inline="true" :model="formSearch" class="list-form-pv" style="justify-content: center;display: flex;">
             <div class="section-btn">

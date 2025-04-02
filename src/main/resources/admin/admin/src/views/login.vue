@@ -43,7 +43,7 @@
           }"
           class="title-container"
         >
-          高校自习室预约系统 登录
+        智慧自习室预约系统 登录
         </div>
         <div
           v-if="loginType == 1"
