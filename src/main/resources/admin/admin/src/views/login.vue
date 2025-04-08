@@ -358,7 +358,7 @@ export default {
   background-size: cover;
   background: 'url(login_bg.jpg)';
 
-  .list-item /deep/ .el-input .el-input__inner {
+  .list-item >>> .el-input .el-input__inner {
     border: 0px solid rgba(64, 158, 255, 1);
     padding: 0 10px;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.302);
@@ -368,7 +368,7 @@ export default {
     height: 44px;
   }
 
-  .list-code /deep/ .el-input .el-input__inner {
+  .list-code >>> .el-input .el-input__inner {
     border: 0px solid rgba(64, 158, 255, 1);
     padding: 0 10px;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.302);
@@ -381,19 +381,19 @@ export default {
   .list-code span {
     transition: all 0.3s ease;
   }
-  .list-type /deep/ .el-radio__input .el-radio__inner {
+  .list-type >>> .el-radio__input .el-radio__inner {
     background: rgba(53, 53, 53, 0);
     border-color: #666666;
   }
-  .list-type /deep/ .el-radio__input.is-checked .el-radio__inner {
+  .list-type >>> .el-radio__input.is-checked .el-radio__inner {
     background: #758659;
     border-color: #758659;
   }
-  .list-type /deep/ .el-radio__label {
+  .list-type >>> .el-radio__label {
     color: #666666;
     font-size: 14px;
   }
-  .list-type /deep/ .el-radio__input.is-checked + .el-radio__label {
+  .list-type >>> .el-radio__input.is-checked + .el-radio__label {
     color: #758659;
     font-size: 14px;
   }

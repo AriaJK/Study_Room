@@ -128,7 +128,10 @@ CREATE TABLE `quxiaoyuyue` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1743659224914 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='取消预约';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
+ALTER TABLE `quxiaoyuyue`
+CHANGE `sfsh` `sfsh` VARCHAR(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '是' COMMENT '是否审核';
+
+
 -- Dumping data for table `quxiaoyuyue`
 --
 

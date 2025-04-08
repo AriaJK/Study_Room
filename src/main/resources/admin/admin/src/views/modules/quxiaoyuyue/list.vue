@@ -20,13 +20,9 @@
 				<el-row :style='{"margin":"20px 0","flexDirection":"column","display":"flex"}'>
 					<el-button :style='{"border":"1px solid #97C9D6","cursor":"pointer","padding":"0","boxShadow":"0px 2px 2px 0px #78ABC3","margin":"0 0 10px","outline":"none","color":"#78ABC3","borderRadius":"30px","background":"#fff","width":"100%","fontSize":"14px","height":"40px"}' v-if="isAuth('quxiaoyuyue','新增')" type="success" @click="addOrUpdateHandler()">新增</el-button>
 					<el-button :style='{"border":"1px solid #97C9D6","cursor":"pointer","padding":"0","boxShadow":"0px 2px 2px 0px #78ABC3","margin":"0 0 10px","outline":"none","color":"#78ABC3","borderRadius":"30px","background":"#fff","width":"100%","fontSize":"14px","height":"40px"}' v-if="isAuth('quxiaoyuyue','删除')" :disabled="dataListSelections.length <= 0" type="danger" @click="deleteHandler()">删除</el-button>
-
-
-
-
 				</el-row>
 			</el-form>
-			
+
 			<!-- <div> -->
 				<el-table class="tables"
 					:stripe='false'
@@ -88,6 +84,13 @@
 							{{scope.row.xingming}}
 						</template>
 					</el-table-column>
+					<el-table-column :resizable='true' :sortable='false'
+                    						prop="xingming"
+                    					label="姓名">
+                    						<template slot-scope="scope">
+                    							{{scope.row.xingming}}
+                    						</template>
+                    					</el-table-column>
 					<el-table-column :resizable='true' :sortable='false'  
 						prop="shouji"
 					label="手机">
@@ -95,7 +98,6 @@
 							{{scope.row.shouji}}
 						</template>
 					</el-table-column>
-					<el-table-column :resizable='true' :sortable='false' prop="shhf" label="审核回复"></el-table-column>
 					<el-table-column :resizable='true' :sortable='false' prop="sfsh" label="审核状态">
 						<template slot-scope="scope">
 							<span style="margin-right:10px" v-if="scope.row.sfsh=='是'">通过</span>
@@ -103,20 +105,10 @@
 							<span style="margin-right:10px" v-if="scope.row.sfsh=='待审核'">待审核</span>
 						</template>
 					</el-table-column>
-					<el-table-column :resizable='true' :sortable='false' v-if="isAuth('quxiaoyuyue','审核')" prop="sfsh" label="审核">
-						<template slot-scope="scope">
-							<el-button  type="text" size="small" @click="shDialog(scope.row)">审核</el-button>
-						</template>
-					</el-table-column>
 					<el-table-column width="300" label="操作">
 						<template slot-scope="scope">
 							<el-button :style='{"border":"0","cursor":"pointer","padding":"0 24px","margin":"0 10px 6px 0","outline":"none","color":"#fff","borderRadius":"30px","background":"#93C7B3","width":"auto","fontSize":"14px","height":"32px"}' v-if=" isAuth('quxiaoyuyue','查看')" type="success" size="mini" @click="addOrUpdateHandler(scope.row.id,'info')">详情</el-button>
 							<el-button :style='{"border":"0","cursor":"pointer","padding":"0 24px","margin":"0 10px 6px 0","outline":"none","color":"#fff","borderRadius":"30px","background":"#93C7B3","width":"auto","fontSize":"14px","height":"32px"}' v-if=" isAuth('quxiaoyuyue','修改')" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">修改</el-button>
-
-
-
-
-
 							<el-button :style='{"border":"0","cursor":"pointer","padding":"0 24px","margin":"0 10px 6px 0","outline":"none","color":"#fff","borderRadius":"30px","background":"#93C7B3","width":"auto","fontSize":"14px","height":"32px"}' v-if="isAuth('quxiaoyuyue','删除') " type="danger" size="mini" @click="deleteHandler(scope.row.id)">删除</el-button>
 						</template>
 					</el-table-column>
@@ -140,27 +132,6 @@
 		
 		<!-- 添加/修改页面  将父组件的search方法传递给子组件-->
 		<add-or-update v-if="addOrUpdateFlag" :parent="this" ref="addOrUpdate"></add-or-update>
-
-
-		<el-dialog title="审核" :visible.sync="sfshVisiable" width="50%">
-			<el-form ref="form" :model="form" label-width="80px">
-				<el-form-item label="审核状态">
-					<el-select v-model="shForm.sfsh" placeholder="审核状态">
-						<el-option label="通过" value="是"></el-option>
-						<el-option label="不通过" value="否"></el-option>
-						<el-option label="待审核" value="待审核"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="内容">
-					<el-input type="textarea" :rows="8" v-model="shForm.shhf"></el-input>
-				</el-form-item>
-			</el-form>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="shDialog">取 消</el-button>
-				<el-button type="primary" @click="shHandler">确 定</el-button>
-			</span>
-		</el-dialog>
-
 
 
 	</div>
@@ -231,14 +202,6 @@ export default {
       // this.layouts = arr.join()
       // this.contents.pageEachNum = 10
     },
-
-
-
-
-
-
-
-
     init () {
         this.sfshOptions = "是,否,待审核".split(',');
     },
@@ -366,34 +329,7 @@ export default {
         }
       }
     },
-    // 审核
-    shHandler(){
-      this.$confirm(`确定操作?`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        this.$http({
-          url: "quxiaoyuyue/update",
-          method: "post",
-          data: this.shForm
-        }).then(({ data }) => {
-          if (data && data.code === 0) {
-            this.$message({
-              message: "操作成功",
-              type: "success",
-              duration: 1500,
-              onClose: () => {
-                this.getDataList();
-                this.shDialog()
-              }
-            });
-          } else {
-            this.$message.error(data.msg);
-          }
-        });
-      });
-    },
+
     // 下载
     download(file){
       window.open(`${file}`)
@@ -449,7 +385,7 @@ export default {
 	}
 	
 	// form
-	.center-form-pv .el-input /deep/ .el-input__inner {
+	.center-form-pv .el-input >>> .el-input__inner {
 				border: 1px solid #78ABC3;
 				border-radius: 0;
 				padding: 0 12px;
@@ -461,7 +397,7 @@ export default {
 				height: 40px;
 			}
 	
-	.center-form-pv .el-select /deep/ .el-input__inner {
+	.center-form-pv .el-select >>> .el-input__inner {
 				border: 1px solid #78ABC3;
 				border-radius: 0;
 				padding: 0 10px;
@@ -473,7 +409,7 @@ export default {
 				height: 40px;
 			}
 	
-	.center-form-pv .el-date-editor /deep/ .el-input__inner {
+	.center-form-pv .el-date-editor >>> .el-input__inner {
 				border: 1px solid #78ABC3;
 				border-radius: 0;
 				padding: 0 10px 0 30px;
@@ -486,17 +422,17 @@ export default {
 			}
 	
 	// table
-	.el-table /deep/ .el-table__header-wrapper thead {
+	.el-table  .el-table__header-wrapper thead {
 				color: #999;
 				font-weight: 500;
 				width: 100%;
 			}
 	
-	.el-table /deep/ .el-table__header-wrapper thead tr {
+	.el-table  .el-table__header-wrapper thead tr {
 				background: #93C7B3;
 			}
 	
-	.el-table /deep/ .el-table__header-wrapper thead tr th {
+	.el-table  .el-table__header-wrapper thead tr th {
 				padding: 12px 0;
 				color: #fff;
 				background: transparent;
@@ -506,7 +442,7 @@ export default {
 				text-align: center;
 			}
 
-	.el-table /deep/ .el-table__header-wrapper thead tr th .cell {
+	.el-table  .el-table__header-wrapper thead tr th .cell {
 				padding: 0 10px;
 				word-wrap: normal;
 				word-break: break-all;
@@ -521,15 +457,15 @@ export default {
 			}
 
 	
-	.el-table /deep/ .el-table__body-wrapper tbody {
+	.el-table  .el-table__body-wrapper tbody {
 				width: 100%;
 			}
 
-	.el-table /deep/ .el-table__body-wrapper tbody tr {
+	.el-table  .el-table__body-wrapper tbody tr {
 				background: #fff;
 			}
 	
-	.el-table /deep/ .el-table__body-wrapper tbody tr td {
+	.el-table  .el-table__body-wrapper tbody tr td {
 				padding: 12px 0;
 				color: #999;
 				background: #fff;
@@ -540,7 +476,7 @@ export default {
 			}
 	
 		
-	.el-table /deep/ .el-table__body-wrapper tbody tr:hover td {
+	.el-table  .el-table__body-wrapper tbody tr:hover td {
 				padding: 12px 0;
 				color: #000;
 				background: rgba(147, 199, 179, 0.5);
@@ -549,7 +485,7 @@ export default {
 				border-style: solid;
 			}
 	
-	.el-table /deep/ .el-table__body-wrapper tbody tr td {
+	.el-table  .el-table__body-wrapper tbody tr td {
 				padding: 12px 0;
 				color: #999;
 				background: #fff;
@@ -559,7 +495,7 @@ export default {
 				text-align: center;
 			}
 
-	.el-table /deep/ .el-table__body-wrapper tbody tr td .cell {
+	.el-table  .el-table__body-wrapper tbody tr td .cell {
 				padding: 0 10px;
 				overflow: hidden;
 				word-break: break-all;
@@ -569,7 +505,7 @@ export default {
 			}
 	
 	// pagination
-	.main-content .el-pagination /deep/ .el-pagination__total {
+	.main-content .el-pagination  .el-pagination__total {
 				margin: 0 10px 0 0;
 				color: #666;
 				font-weight: 400;
@@ -580,7 +516,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .btn-prev {
+	.main-content .el-pagination  .btn-prev {
 				border: none;
 				border-radius: 2px;
 				padding: 0;
@@ -595,7 +531,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .btn-next {
+	.main-content .el-pagination  .btn-next {
 				border: none;
 				border-radius: 2px;
 				padding: 0;
@@ -610,7 +546,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .btn-prev:disabled {
+	.main-content .el-pagination  .btn-prev:disabled {
 				border: none;
 				cursor: not-allowed;
 				border-radius: 2px;
@@ -625,7 +561,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .btn-next:disabled {
+	.main-content .el-pagination  .btn-next:disabled {
 				border: none;
 				cursor: not-allowed;
 				border-radius: 2px;
@@ -640,14 +576,14 @@ export default {
 				height: 28px;
 			}
 
-	.main-content .el-pagination /deep/ .el-pager {
+	.main-content .el-pagination  .el-pager {
 				padding: 0;
 				margin: 0;
 				display: inline-block;
 				vertical-align: top;
 			}
 
-	.main-content .el-pagination /deep/ .el-pager .number {
+	.main-content .el-pagination  .el-pager .number {
 				cursor: pointer;
 				padding: 0 4px;
 				margin: 0 5px;
@@ -663,7 +599,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pager .number:hover {
+	.main-content .el-pagination  .el-pager .number:hover {
 				cursor: pointer;
 				padding: 0 4px;
 				margin: 0 5px;
@@ -679,7 +615,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pager .number.active {
+	.main-content .el-pagination  .el-pager .number.active {
 				cursor: default;
 				padding: 0 4px;
 				margin: 0 5px;
@@ -695,7 +631,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pagination__sizes {
+	.main-content .el-pagination  .el-pagination__sizes {
 				display: inline-block;
 				vertical-align: top;
 				font-size: 13px;
@@ -703,13 +639,13 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pagination__sizes .el-input {
+	.main-content .el-pagination  .el-pagination__sizes .el-input {
 				margin: 0 5px;
 				width: 100px;
 				position: relative;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pagination__sizes .el-input .el-input__inner {
+	.main-content .el-pagination  .el-pagination__sizes .el-input .el-input__inner {
 				border: 1px solid #DCDFE6;
 				cursor: pointer;
 				padding: 0 25px 0 8px;
@@ -725,14 +661,14 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pagination__sizes .el-input span.el-input__suffix {
+	.main-content .el-pagination  .el-pagination__sizes .el-input span.el-input__suffix {
 				top: 0;
 				position: absolute;
 				right: 0;
 				height: 100%;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pagination__sizes .el-input .el-input__suffix .el-select__caret {
+	.main-content .el-pagination  .el-pagination__sizes .el-input .el-input__suffix .el-select__caret {
 				cursor: pointer;
 				color: #C0C4CC;
 				width: 25px;
@@ -741,7 +677,7 @@ export default {
 				text-align: center;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pagination__jump {
+	.main-content .el-pagination  .el-pagination__jump {
 				margin: 0 0 0 24px;
 				color: #606266;
 				display: inline-block;
@@ -751,7 +687,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pagination__jump .el-input {
+	.main-content .el-pagination  .el-pagination__jump .el-input {
 				border-radius: 3px;
 				padding: 0 2px;
 				margin: 0 2px;
@@ -764,7 +700,7 @@ export default {
 				height: 28px;
 			}
 	
-	.main-content .el-pagination /deep/ .el-pagination__jump .el-input .el-input__inner {
+	.main-content .el-pagination  .el-pagination__jump .el-input .el-input__inner {
 				border: 1px solid #DCDFE6;
 				cursor: pointer;
 				padding: 0 3px;

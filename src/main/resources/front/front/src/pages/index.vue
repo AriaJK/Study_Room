@@ -173,7 +173,7 @@ export default {
 	  .el-scrollbar {
 	    height: 100%;
 	
-	    & /deep/ .scrollbar-wrapper {
+	    & >>> .scrollbar-wrapper {
 	      overflow-x: hidden;
 	    }
 	  }
@@ -231,34 +231,34 @@ export default {
 	}
 	
 	.banner-preview {
-	  .el-carousel /deep/ .el-carousel__indicator button {
+	  .el-carousel >>> .el-carousel__indicator button {
 	    width: 0;
 	    height: 0;
 	    display: none;
 	  }
 	}
 	
-	.banner-preview .el-carousel /deep/ .el-carousel__container .el-carousel__arrow--left {
+	.banner-preview .el-carousel >>> .el-carousel__container .el-carousel__arrow--left {
 		width: 36px;
 		font-size: 12px;
 		height: 36px;
 	}
 	
-	.banner-preview .el-carousel /deep/ .el-carousel__container .el-carousel__arrow--left:hover {
+	.banner-preview .el-carousel >>> .el-carousel__container .el-carousel__arrow--left:hover {
 		background: red;
 	}
 	
-	.banner-preview .el-carousel /deep/ .el-carousel__container .el-carousel__arrow--right {
+	.banner-preview .el-carousel >>> .el-carousel__container .el-carousel__arrow--right {
 		width: 36px;
 		font-size: 12px;
 		height: 36px;
 	}
 	
-	.banner-preview .el-carousel /deep/ .el-carousel__container .el-carousel__arrow--right:hover {
+	.banner-preview .el-carousel >>> .el-carousel__container .el-carousel__arrow--right:hover {
 		background: red;
 	}
 
-	.banner-preview .el-carousel /deep/ .el-carousel__indicators {
+	.banner-preview .el-carousel >>> .el-carousel__indicators {
 		padding: 0;
 		margin: 0 0 10px;
 		z-index: 2;
@@ -266,7 +266,7 @@ export default {
 		list-style: none;
 	}
 	
-	.banner-preview .el-carousel /deep/ .el-carousel__indicators li {
+	.banner-preview .el-carousel >>> .el-carousel__indicators li {
 		border-radius: 10px;
 		padding: 0;
 		margin: 0 4px;
@@ -278,7 +278,7 @@ export default {
 		height: 12px;
 	}
 	
-	.banner-preview .el-carousel /deep/ .el-carousel__indicators li:hover {
+	.banner-preview .el-carousel >>> .el-carousel__indicators li:hover {
 		padding: 0;
 		margin: 0 4px;
 		background: #fff;
@@ -288,7 +288,7 @@ export default {
 		height: 12px;
 	}
 	
-	.banner-preview .el-carousel /deep/ .el-carousel__indicators li.is-active {
+	.banner-preview .el-carousel >>> .el-carousel__indicators li.is-active {
 		padding: 0;
 		margin: 0 4px;
 		background: #fff;
