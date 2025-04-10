@@ -357,7 +357,7 @@
 		width: auto;
 	}
 	
-	.add-update-preview .el-form-item /deep/ .el-form-item__label {
+	.add-update-preview .el-form-item >>> .el-form-item__label {
 	  padding: 0 10px 0 0;
 	  color: #666;
 	  font-weight: 500;
@@ -367,11 +367,11 @@
 	  text-align: center;
 	}
 	
-	.add-update-preview .el-form-item /deep/ .el-form-item__content {
+	.add-update-preview .el-form-item >>> .el-form-item__content {
 	  margin-left: 120px;
 	}
 	
-	.add-update-preview .el-input /deep/ .el-input__inner {
+	.add-update-preview .el-input >>> .el-input__inner {
 	  border: 2px solid #2e61e1;
 	  border-radius: 4px;
 	  padding: 0 12px;
@@ -383,7 +383,7 @@
 	  height: 40px;
 	}
 	
-	.add-update-preview .el-select /deep/ .el-input__inner {
+	.add-update-preview .el-select >>> .el-input__inner {
 	  border: 2px solid #2e61e1;
 	  border-radius: 4px;
 	  padding: 0 10px;
@@ -395,7 +395,7 @@
 	  height: 40px;
 	}
 	
-	.add-update-preview .el-date-editor /deep/ .el-input__inner {
+	.add-update-preview .el-date-editor >>> .el-input__inner {
 	  border: 2px solid #2e61e1;
 	  border-radius: 4px;
 	  padding: 0 10px 0 30px;
@@ -407,7 +407,7 @@
 	  height: 40px;
 	}
 	
-	.add-update-preview /deep/ .el-upload--picture-card {
+	.add-update-preview >>> .el-upload--picture-card {
 		background: transparent;
 		border: 0;
 		border-radius: 0;
@@ -417,7 +417,7 @@
 		vertical-align: middle;
 	}
 	
-	.add-update-preview /deep/ .upload .upload-img {
+	.add-update-preview >>> .upload .upload-img {
 	  border: 1px dashed rgba(64, 158, 255, 1);
 	  cursor: pointer;
 	  border-radius: 6px;
@@ -429,7 +429,7 @@
 	  height: 100px;
 	}
 	
-	.add-update-preview /deep/ .el-upload-list .el-upload-list__item {
+	.add-update-preview >>> .el-upload-list .el-upload-list__item {
 	  border: 1px dashed rgba(64, 158, 255, 1);
 	  cursor: pointer;
 	  border-radius: 6px;
@@ -441,7 +441,7 @@
 	  height: 100px;
 	}
 	
-	.add-update-preview /deep/ .el-upload .el-icon-plus {
+	.add-update-preview >>> .el-upload .el-icon-plus {
 	  border: 1px dashed rgba(64, 158, 255, 1);
 	  cursor: pointer;
 	  border-radius: 6px;
@@ -453,7 +453,7 @@
 	  height: 100px;
 	}
 	
-	.add-update-preview .el-textarea /deep/ .el-textarea__inner {
+	.add-update-preview .el-textarea >>> .el-textarea__inner {
 	  border: 2px solid #2e61e1;
 	  border-radius: 4px;
 	  padding: 12px;

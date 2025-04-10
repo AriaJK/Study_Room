@@ -612,12 +612,12 @@ export default {
   background: url(http://codegen.caihongy.cn/20221017/0d970ac476e8407a92e0eee7a8e88625.png);
 
   .el-form-item {
-    & /deep/ .el-form-item__content {
+    & >>> .el-form-item__content {
       width: 100%;
     }
   }
 
-  .list-item /deep/ .el-input .el-input__inner {
+  .list-item >>> .el-input .el-input__inner {
     border: 0px solid rgba(64, 158, 255, 1);
     padding: 0 10px;
     color: #000;
@@ -628,7 +628,7 @@ export default {
     height: 44px;
   }
 
-  .list-code /deep/ .el-input .el-input__inner {
+  .list-code >>> .el-input .el-input__inner {
     border: 0px solid rgba(64, 158, 255, 1);
     padding: 0 10px;
     outline: none;
@@ -641,19 +641,19 @@ export default {
     height: 44px;
   }
 
-  .list-type /deep/ .el-radio__input .el-radio__inner {
+  .list-type >>> .el-radio__input .el-radio__inner {
     background: rgba(53, 53, 53, 0);
     border-color: #666666;
   }
-  .list-type /deep/ .el-radio__input.is-checked .el-radio__inner {
+  .list-type >>> .el-radio__input.is-checked .el-radio__inner {
     background: #174ad7;
     border-color: #174ad7;
   }
-  .list-type /deep/ .el-radio__label {
+  .list-type >>> .el-radio__label {
     color: #666666;
     font-size: 14px;
   }
-  .list-type /deep/ .el-radio__input.is-checked + .el-radio__label {
+  .list-type >>> .el-radio__input.is-checked + .el-radio__label {
     color: #174ad7;
     font-size: 14px;
   }

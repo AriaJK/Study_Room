@@ -154,13 +154,13 @@ export default {
 	  .el-scrollbar {
 	    height: 100%;
 	
-	    & /deep/ .scrollbar-wrapper {
+	    & >>> .scrollbar-wrapper {
 	      overflow-x: hidden;
 	    }
 		
 				// 竖向
 		.el-menu-vertical-demo {
-		  .el-submenu:first-of-type /deep/ .el-submenu__title .el-submenu__icon-arrow {
+		  .el-submenu:first-of-type >>> .el-submenu__title .el-submenu__icon-arrow {
 		    display: none;
 		  }
 		}
@@ -185,7 +185,7 @@ export default {
 						background: 'url(login_bg.jpg)' center center no-repeat;
 					}
 		
-		.el-menu-vertical-demo .el-submenu /deep/ .el-submenu__title {
+		.el-menu-vertical-demo .el-submenu >>> .el-submenu__title {
 						cursor: pointer;
 						padding: 0 20px;
 						color: #333;
@@ -200,12 +200,12 @@ export default {
 						border-style: solid;
 					}
 		
-		.el-menu-vertical-demo .el-submenu /deep/ .el-submenu__title:hover {
+		.el-menu-vertical-demo .el-submenu >>> .el-submenu__title:hover {
 						color: #fff;
 						background: 'url(login_bg.jpg)' center center no-repeat;
 					}
 		
-		.el-menu-vertical-demo .el-submenu /deep/ .el-submenu__title .el-submenu__icon-arrow {
+		.el-menu-vertical-demo .el-submenu >>> .el-submenu__title .el-submenu__icon-arrow {
 						margin: -7px 0 0 0;
 						top: 50%;
 						color: inherit;
@@ -221,12 +221,12 @@ export default {
 						list-style: none;
 					}
 		
-		// .el-menu-vertical-demo .el-submenu /deep/ .el-menu {
+		// .el-menu-vertical-demo .el-submenu >>> .el-menu {
 		// 				// 		border: none;
 		// 				// 		display: none;
 		// 				// }
 		
-		.el-menu-vertical-demo .el-submenu /deep/ .el-menu .el-menu-item {
+		.el-menu-vertical-demo .el-submenu >>> .el-menu .el-menu-item {
 						padding: 0 40px;
 						color: #A2A2A2;
 						background: #F9F9F9;
@@ -235,7 +235,7 @@ export default {
 						height: 50px;
 					}
 		
-		.el-menu-vertical-demo .el-submenu /deep/ .el-menu .el-menu-item:hover {
+		.el-menu-vertical-demo .el-submenu >>> .el-menu .el-menu-item:hover {
 						padding: 0 40px;
 						color: #fff;
 						background: #97C9D6;
@@ -243,7 +243,7 @@ export default {
 						height: 50px;
 					}
 		
-		.el-menu-vertical-demo .el-submenu /deep/ .el-menu .el-menu-item.is-active {
+		.el-menu-vertical-demo .el-submenu >>> .el-menu .el-menu-item.is-active {
 						padding: 0 40px;
 						color: #fff;
 						background: #97C9D6;

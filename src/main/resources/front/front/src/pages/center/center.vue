@@ -267,7 +267,7 @@
   .center-preview {
   
     .el-tabs {
-      & /deep/ .el-tabs__header {
+      & >>> .el-tabs__header {
         .el-tabs__nav-wrap {
           margin: 0;
   
@@ -295,7 +295,7 @@
     }
   }
   
-  .center-preview .el-tabs /deep/ .el-tabs__header {
+  .center-preview .el-tabs >>> .el-tabs__header {
 	padding: 20px;
 	margin: 0;
 	background: #BFD2FC;
@@ -308,7 +308,7 @@
 	border-style: solid;
   }
   
-  .center-preview .el-tabs /deep/ .el-tabs__header .el-tabs__item {
+  .center-preview .el-tabs >>> .el-tabs__header .el-tabs__item {
   	padding: 0 10px;
   	margin: 10px 0;
   	color: #fff;
@@ -321,7 +321,7 @@
   	height: 40px;
   }
   
-  .center-preview .el-tabs /deep/ .el-tabs__header .el-tabs__item:hover {
+  .center-preview .el-tabs >>> .el-tabs__header .el-tabs__item:hover {
   	padding: 0 10px;
   	color: #fff;
   	background: url(http://codegen.caihongy.cn/20221018/f6c1f39bff574b6cb2564bbedb76b604.png) no-repeat center top;
@@ -333,7 +333,7 @@
   	height: 40px;
   }
   
-  .center-preview .el-tabs /deep/ .el-tabs__header .el-tabs__item.is-active {
+  .center-preview .el-tabs >>> .el-tabs__header .el-tabs__item.is-active {
   	padding: 0 10px;
   	color: #fff;
   	background: url(http://codegen.caihongy.cn/20221018/f6c1f39bff574b6cb2564bbedb76b604.png) no-repeat center top;
@@ -345,13 +345,13 @@
   	height: 40px;
   }
   
-  .center-preview .el-tabs /deep/ .el-tabs__content .el-tab-pane {
+  .center-preview .el-tabs >>> .el-tabs__content .el-tab-pane {
   	padding: 10px;
   	background: #fff;
   	float: right;
   }
   
-  .center-preview-pv .el-form-item /deep/ .el-form-item__label {
+  .center-preview-pv .el-form-item >>> .el-form-item__label {
   	padding: 0 10px 0 0;
   	color: #666;
   	font-weight: 500;
@@ -365,7 +365,7 @@
     margin-left: 110px;
   }
   
-  .center-preview-pv .el-input /deep/ .el-input__inner {
+  .center-preview-pv .el-input >>> .el-input__inner {
   	border: 0;
   	border-radius: 4px;
   	padding: 0 12px;
@@ -377,7 +377,7 @@
   	height: 40px;
   }
   
-  .center-preview-pv .el-select /deep/ .el-input__inner {
+  .center-preview-pv .el-select >>> .el-input__inner {
   	border: 0;
   	border-radius: 4px;
   	padding: 0 12px;
@@ -389,7 +389,7 @@
   	height: 40px;
   }
   
-  .center-preview-pv .el-date-editor /deep/ .el-input__inner {
+  .center-preview-pv .el-date-editor >>> .el-input__inner {
   	border: 0;
   	border-radius: 4px;
   	padding: 0 10px 0 30px;
@@ -401,7 +401,7 @@
   	height: 40px;
   }
   
-  .center-preview-pv /deep/ .avatar-uploader-icon {
+  .center-preview-pv >>> .avatar-uploader-icon {
   	border: 1px dashed #BFD2FC;
   	cursor: pointer;
   	border-radius: 6px;
@@ -413,7 +413,7 @@
   	height: 100px;
   }
   
-  .center-preview-pv .el-form-item.balance /deep/ .el-input__inner {
+  .center-preview-pv .el-form-item.balance >>> .el-input__inner {
   	border: 0;
   	border-radius: 0;
   	padding: 0 12px;

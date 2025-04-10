@@ -438,7 +438,7 @@ export default {
     width: 100%;
   }
 
-  .rgs-form .el-input /deep/ .el-input__inner {
+  .rgs-form .el-input >>> .el-input__inner {
     border: 0;
     border-radius: 0;
     padding: 0 10px;
@@ -450,7 +450,7 @@ export default {
     height: 44px;
   }
 
-  .rgs-form .el-select /deep/ .el-input__inner {
+  .rgs-form .el-select >>> .el-input__inner {
     border: 0;
     border-radius: 0;
     padding: 0 10px;
@@ -462,7 +462,7 @@ export default {
     height: 44px;
   }
 
-  .rgs-form .el-date-editor /deep/ .el-input__inner {
+  .rgs-form .el-date-editor >>> .el-input__inner {
     border: 0;
     border-radius: 0;
     padding: 0 10px 0 30px;
@@ -474,7 +474,7 @@ export default {
     height: 44px;
   }
 
-  .rgs-form .el-date-editor /deep/ .el-input__inner {
+  .rgs-form .el-date-editor >>> .el-input__inner {
     border: 0;
     border-radius: 0;
     padding: 0 10px 0 30px;
@@ -486,7 +486,7 @@ export default {
     height: 44px;
   }
 
-  .rgs-form /deep/ .el-upload--picture-card {
+  .rgs-form >>> .el-upload--picture-card {
     background: transparent;
     border: 0;
     border-radius: 0;
@@ -496,7 +496,7 @@ export default {
     vertical-align: middle;
   }
 
-  .rgs-form /deep/ .upload .upload-img {
+  .rgs-form >>> .upload .upload-img {
     border: 1px dashed #888;
     cursor: pointer;
     border-radius: 8px;
@@ -508,7 +508,7 @@ export default {
     height: 100px;
   }
 
-  .rgs-form /deep/ .el-upload-list .el-upload-list__item {
+  .rgs-form >>> .el-upload-list .el-upload-list__item {
     border: 1px dashed #888;
     cursor: pointer;
     border-radius: 8px;
@@ -520,7 +520,7 @@ export default {
     height: 100px;
   }
 
-  .rgs-form /deep/ .el-upload .el-icon-plus {
+  .rgs-form >>> .el-upload .el-icon-plus {
     border: 1px dashed #888;
     cursor: pointer;
     border-radius: 8px;

@@ -123,7 +123,7 @@
 	.detail-preview {
 	
 	  .attr {
-	    .el-carousel /deep/ .el-carousel__indicator button {
+	    .el-carousel >>> .el-carousel__indicator button {
 	      width: 0;
 	      height: 0;
 	      display: none;
@@ -135,7 +135,7 @@
 	  }
 	
 	  .detail {
-	    & /deep/ .el-tabs__header .el-tabs__nav-wrap {
+	    & >>> .el-tabs__header .el-tabs__nav-wrap {
 	      margin-bottom: 0;
 	    }
 	
@@ -145,27 +145,27 @@
 	  }
 	}
 	
-	.attr .el-carousel /deep/ .el-carousel__container .el-carousel__arrow--left {
+	.attr .el-carousel >>> .el-carousel__container .el-carousel__arrow--left {
 		width: 36px;
 		font-size: 12px;
 		height: 36px;
 	}
 	
-	.attr .el-carousel /deep/ .el-carousel__container .el-carousel__arrow--left:hover {
+	.attr .el-carousel >>> .el-carousel__container .el-carousel__arrow--left:hover {
 		background: red;
 	}
 	
-	.attr .el-carousel /deep/ .el-carousel__container .el-carousel__arrow--right {
+	.attr .el-carousel >>> .el-carousel__container .el-carousel__arrow--right {
 		width: 36px;
 		font-size: 12px;
 		height: 36px;
 	}
 	
-	.attr .el-carousel /deep/ .el-carousel__container .el-carousel__arrow--right:hover {
+	.attr .el-carousel >>> .el-carousel__container .el-carousel__arrow--right:hover {
 		background: red;
 	}
 
-	.attr .el-carousel /deep/ .el-carousel__indicators {
+	.attr .el-carousel >>> .el-carousel__indicators {
 		padding: 0;
 		margin: 0 0 10px;
 		z-index: 2;
@@ -173,7 +173,7 @@
 		list-style: none;
 	}
 	
-	.attr .el-carousel /deep/ .el-carousel__indicators li {
+	.attr .el-carousel >>> .el-carousel__indicators li {
 		border-radius: 10px;
 		padding: 0;
 		margin: 0 4px;
@@ -185,7 +185,7 @@
 		height: 12px;
 	}
 	
-	.attr .el-carousel /deep/ .el-carousel__indicators li:hover {
+	.attr .el-carousel >>> .el-carousel__indicators li:hover {
 		padding: 0;
 		margin: 0 4px;
 		background: #fff;
@@ -195,7 +195,7 @@
 		height: 12px;
 	}
 	
-	.attr .el-carousel /deep/ .el-carousel__indicators li.is-active {
+	.attr .el-carousel >>> .el-carousel__indicators li.is-active {
 		padding: 0;
 		margin: 0 4px;
 		background: #fff;
@@ -205,7 +205,7 @@
 		height: 12px;
 	}
 	
-	.attr .el-input-number /deep/ .el-input-number__decrease {
+	.attr .el-input-number >>> .el-input-number__decrease {
 		cursor: pointer;
 		z-index: 1;
 		display: flex;
@@ -224,12 +224,12 @@
 		height: 38px;
 	}
 	
-	.attr .el-input-number /deep/ .el-input-number__decrease i {
+	.attr .el-input-number >>> .el-input-number__decrease i {
 		color: #fff;
 		font-size: 14px;
 	}
 
-	.attr .el-input-number /deep/ .el-input-number__increase {
+	.attr .el-input-number >>> .el-input-number__increase {
 		cursor: pointer;
 		z-index: 1;
 		display: flex;
@@ -248,12 +248,12 @@
 		height: 38px;
 	}
 	
-	.attr .el-input-number /deep/ .el-input-number__increase i {
+	.attr .el-input-number >>> .el-input-number__increase i {
 		color: #fff;
 		font-size: 14px;
 	}
 	
-	.attr .el-input-number /deep/ .el-input .el-input__inner {
+	.attr .el-input-number >>> .el-input .el-input__inner {
 		border: 1px solid #DCDFE6;
 		border-radius: 4px;
 		padding: 0 40px;
@@ -268,7 +268,7 @@
 		height: 40px;
 	}
 	
-	.detail-preview .detail.el-tabs /deep/ .el-tabs__header {
+	.detail-preview .detail.el-tabs >>> .el-tabs__header {
 		padding: 10px;
 		margin: 0;
 		background: #ebf0f4;
@@ -277,7 +277,7 @@
 		border-style: solid;
 	}
 	
-	.detail-preview .detail.el-tabs /deep/ .el-tabs__header .el-tabs__item {
+	.detail-preview .detail.el-tabs >>> .el-tabs__header .el-tabs__item {
 		border: 0;
 		padding: 0 20px;
 		margin: 0 10px;
@@ -294,14 +294,14 @@
 		height: 40px;
 	}
 	
-	.detail-preview .detail.el-tabs /deep/ .el-tabs__header .el-tabs__item:hover {
+	.detail-preview .detail.el-tabs >>> .el-tabs__header .el-tabs__item:hover {
 		border: 0;
 		background-size: 100% 100%;
 		color: #fff;
 		background-image: url(http://codegen.caihongy.cn/20221018/71c4fd01e19542dda750b9c9523c11bd.png);
 	}
 	
-	.detail-preview .detail.el-tabs /deep/ .el-tabs__header .el-tabs__item.is-active {
+	.detail-preview .detail.el-tabs >>> .el-tabs__header .el-tabs__item.is-active {
 		border: 0;
 		background-color: #ebf0f4;
 		margin: 0 10px;
@@ -310,11 +310,11 @@
 		background-image: url(http://codegen.caihongy.cn/20221018/f6c1f39bff574b6cb2564bbedb76b604.png);
 	}
 	
-	.detail-preview .detail.el-tabs /deep/ .el-tabs__content {
+	.detail-preview .detail.el-tabs >>> .el-tabs__content {
 		padding: 15px;
 	}
 	
-	.detail-preview .detail.el-tabs .add /deep/ .el-form-item__label {
+	.detail-preview .detail.el-tabs .add >>> .el-form-item__label {
 		padding: 0 10px 0 0;
 		color: #666;
 		width: 80px;
@@ -323,7 +323,7 @@
 		text-align: right;
 	}
 	
-	.detail-preview .detail.el-tabs .add /deep/ .el-textarea__inner {
+	.detail-preview .detail.el-tabs .add >>> .el-textarea__inner {
 		border: 0;
 		border-radius: 4px;
 		padding: 0 12px;
@@ -336,23 +336,23 @@
 		height: 120px;
 	}
 	
-	.breadcrumb-preview .el-breadcrumb /deep/ .el-breadcrumb__separator {
+	.breadcrumb-preview .el-breadcrumb >>> .el-breadcrumb__separator {
 		margin: 0 9px;
 		color: #000;
 		font-weight: 500;
 	}
 	
-	.breadcrumb-preview .el-breadcrumb /deep/ .el-breadcrumb__inner a {
+	.breadcrumb-preview .el-breadcrumb >>> .el-breadcrumb__inner a {
 		color: #000;
 		display: inline-block;
 	}
 
-	.breadcrumb-preview .el-breadcrumb /deep/ .el-breadcrumb__inner {
+	.breadcrumb-preview .el-breadcrumb >>> .el-breadcrumb__inner {
 		color: #000;
 		display: inline-block;
 	}
 	
-	.el-pagination /deep/ .el-pagination__total {
+	.el-pagination >>> .el-pagination__total {
 		margin: 0 10px 0 0;
 		color: #666;
 		font-weight: 400;
@@ -363,7 +363,7 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .btn-prev {
+	.el-pagination >>> .btn-prev {
 		border: none;
 		border-radius: 2px;
 		padding: 0;
@@ -378,7 +378,7 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .btn-next {
+	.el-pagination >>> .btn-next {
 		border: none;
 		border-radius: 2px;
 		padding: 0;
@@ -393,7 +393,7 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .btn-prev:disabled {
+	.el-pagination >>> .btn-prev:disabled {
 		border: none;
 		cursor: not-allowed;
 		border-radius: 2px;
@@ -408,7 +408,7 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .btn-next:disabled {
+	.el-pagination >>> .btn-next:disabled {
 		border: none;
 		cursor: not-allowed;
 		border-radius: 2px;
@@ -423,14 +423,14 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .el-pager {
+	.el-pagination >>> .el-pager {
 		padding: 0;
 		margin: 0;
 		display: inline-block;
 		vertical-align: top;
 	}
 	
-	.el-pagination /deep/ .el-pager .number {
+	.el-pagination >>> .el-pager .number {
 		cursor: pointer;
 		padding: 0 4px;
 		margin: 0 5px;
@@ -446,7 +446,7 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .el-pager .number:hover {
+	.el-pagination >>> .el-pager .number:hover {
 		cursor: pointer;
 		padding: 0 4px;
 		margin: 0 5px;
@@ -462,7 +462,7 @@
 		height: 28px;
 }
 
-.el-pagination /deep/ .el-pager .number.active {
+.el-pagination >>> .el-pager .number.active {
 		cursor: default;
 		padding: 0 4px;
 		margin: 0 5px;
@@ -478,7 +478,7 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .el-pagination__sizes {
+	.el-pagination >>> .el-pagination__sizes {
 		display: inline-block;
 		vertical-align: top;
 		font-size: 13px;
@@ -486,13 +486,13 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .el-pagination__sizes .el-input {
+	.el-pagination >>> .el-pagination__sizes .el-input {
 		margin: 0 5px;
 		width: 100px;
 		position: relative;
 	}
 	
-	.el-pagination /deep/ .el-pagination__sizes .el-input .el-input__inner {
+	.el-pagination >>> .el-pagination__sizes .el-input .el-input__inner {
 		border: 1px solid #DCDFE6;
 		cursor: pointer;
 		padding: 0 25px 0 8px;
@@ -508,14 +508,14 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .el-pagination__sizes .el-input span.el-input__suffix {
+	.el-pagination >>> .el-pagination__sizes .el-input span.el-input__suffix {
 		top: 0;
 		position: absolute;
 		right: 0;
 		height: 100%;
 	}
 	
-	.el-pagination /deep/ .el-pagination__sizes .el-input .el-input__suffix .el-select__caret {
+	.el-pagination >>> .el-pagination__sizes .el-input .el-input__suffix .el-select__caret {
 		cursor: pointer;
 		color: #C0C4CC;
 		width: 25px;
@@ -524,7 +524,7 @@
 		text-align: center;
 	}
 
-	.el-pagination /deep/ .el-pagination__jump {
+	.el-pagination >>> .el-pagination__jump {
 		margin: 0 0 0 24px;
 		color: #606266;
 		display: inline-block;
@@ -534,7 +534,7 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .el-pagination__jump .el-input {
+	.el-pagination >>> .el-pagination__jump .el-input {
 		border-radius: 3px;
 		padding: 0 2px;
 		margin: 0 2px;
@@ -547,7 +547,7 @@
 		height: 28px;
 	}
 	
-	.el-pagination /deep/ .el-pagination__jump .el-input .el-input__inner {
+	.el-pagination >>> .el-pagination__jump .el-input .el-input__inner {
 		border: 1px solid #DCDFE6;
 		cursor: pointer;
 		padding: 0 3px;

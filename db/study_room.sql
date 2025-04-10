@@ -128,7 +128,10 @@ CREATE TABLE `quxiaoyuyue` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1743659224914 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='取消预约';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
+ALTER TABLE `quxiaoyuyue`
+CHANGE `sfsh` `sfsh` VARCHAR(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '是' COMMENT '是否审核';
+
+
 -- Dumping data for table `quxiaoyuyue`
 --
 
@@ -279,7 +282,7 @@ CREATE TABLE `yuyuexinxi` (
   `xuehao` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '学号',
   `xingming` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '姓名',
   `shouji` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '手机',
-  `sfsh` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '待审核' COMMENT '是否审核',
+  `sfsh` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '是' COMMENT '是否审核',
   `shhf` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci COMMENT '审核回复',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `yuyuedanhao` (`yuyuedanhao`) USING BTREE
