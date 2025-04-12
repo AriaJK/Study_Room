@@ -7,7 +7,6 @@
     <resultMap type="com.entity.QiandaoxinxiEntity" id="qiandaoxinxiMap">
         <result property="mingcheng" column="mingcheng"/>
         <result property="qiandaoshijian" column="qiandaoshijian"/>
-        <result property="renlianshibie" column="renlianshibie"/>
         <result property="qiandaobeizhu" column="qiandaobeizhu"/>
         <result property="xuehao" column="xuehao"/>
         <result property="shouji" column="shouji"/>
@@ -28,6 +27,4 @@
         SELECT * FROM qiandaoxinxi qiandaoxinxi
         <where>1=1 ${ew.sqlSegment}</where>
     </select>
-
-
 </mapper>

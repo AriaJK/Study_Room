@@ -9,7 +9,9 @@ import com.service.QuxiaoyuyueService;
 import com.utils.MPUtil;
 import com.utils.PageUtils;
 import com.utils.R;
+import org.apache.shiro.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +31,8 @@ public class QuxiaoyuyueController {
     @Autowired
     private QuxiaoyuyueService quxiaoyuyueService;
 
-
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     /**
      * 后端列表
      */
@@ -109,10 +112,30 @@ public class QuxiaoyuyueController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody QuxiaoyuyueEntity quxiaoyuyue, HttpServletRequest request) {
+        Integer zuoweiId = quxiaoyuyue.getZuowei();
+        Integer zixishiId = quxiaoyuyue.getZixishiid();
         quxiaoyuyue.setId(new Date().getTime() + new Double(Math.floor(Math.random() * 1000)).longValue());
-        //ValidatorUtils.validateEntity(quxiaoyuyue);
-        quxiaoyuyueService.insert(quxiaoyuyue);
-        return R.ok();
+        try {
+            // 3. 更新座位状态为0（锁定）
+            String tableName = "seats_" + zixishiId;
+
+            // 安全校验表名格式
+            if (!tableName.matches("seats_\\d+")) {
+                return R.error("非法表名");
+            }
+
+            // 执行锁定操作（确保原子性）
+            int updatedRows = jdbcTemplate.update(
+                    "UPDATE " + tableName + " SET status = 1 WHERE id = ? AND status = 0",
+                    zuoweiId
+            );
+            //ValidatorUtils.validateEntity(qiantuixinxi);
+            quxiaoyuyueService.insert(quxiaoyuyue);
+            return R.ok();
+        } catch (DataAccessException e) {
+            // 数据库错误自动触发事务回滚
+            return R.error("数据库操作失败：" + e.getMessage());
+        }
     }
 
     /**

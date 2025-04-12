@@ -56,6 +56,11 @@ public class YuyuexinxiEntity<T> implements Serializable {
     private String tupian;
 
     /**
+     * 自习室序号
+     */
+    private Integer zixishiid;
+
+    /**
      * 座位
      */
 
@@ -67,6 +72,11 @@ public class YuyuexinxiEntity<T> implements Serializable {
 
     private String qiandaozhuangtai;
 
+    /**
+     * 签退状态
+     */
+
+    private String qiantuizhuangtai;
     /**
      * 预约时间
      */
@@ -99,11 +109,6 @@ public class YuyuexinxiEntity<T> implements Serializable {
 
     private String shouji;
 
-    /**
-     * 是否审核
-     */
-
-    private String sfsh;
 
     /**
      * 审核回复
@@ -189,6 +194,19 @@ public class YuyuexinxiEntity<T> implements Serializable {
     }
 
     /**
+     * 设置：自习室序号
+     */
+    public void setZixishiid(Integer zixishiid) {
+        this.zixishiid = zixishiid;
+    }
+
+    /**
+     * 获取：自习室序号
+     */
+    public Integer getZixishiid() {
+        return zixishiid;
+    }
+    /**
      * 设置：签到状态
      */
     public void setQiandaozhuangtai(String qiandaozhuangtai) {
@@ -197,6 +215,20 @@ public class YuyuexinxiEntity<T> implements Serializable {
 
     /**
      * 获取：签到状态
+     */
+    public String getQiantuizhuangtai() {
+        return qiantuizhuangtai;
+    }
+
+    /**
+     * 设置：签退状态
+     */
+    public void setQiantuizhuangtai(String qiantuizhuangtai) {
+        this.qiantuizhuangtai = qiantuizhuangtai;
+    }
+
+    /**
+     * 获取：签退状态
      */
     public String getQiandaozhuangtai() {
         return qiandaozhuangtai;
@@ -272,29 +304,17 @@ public class YuyuexinxiEntity<T> implements Serializable {
         return shouji;
     }
 
-    /**
-     * 设置：是否审核
-     */
-    public void setSfsh(String sfsh) {
-        this.sfsh = sfsh;
-    }
+
 
     /**
-     * 获取：是否审核
-     */
-    public String getSfsh() {
-        return sfsh;
-    }
-
-    /**
-     * 设置：审核回复
+     * 设置：回复
      */
     public void setShhf(String shhf) {
         this.shhf = shhf;
     }
 
     /**
-     * 获取：审核回复
+     * 获取：回复
      */
     public String getShhf() {
         return shhf;

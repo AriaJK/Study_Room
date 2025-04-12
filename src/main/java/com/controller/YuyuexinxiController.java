@@ -9,7 +9,9 @@ import com.service.YuyuexinxiService;
 import com.utils.MPUtil;
 import com.utils.PageUtils;
 import com.utils.R;
+import org.apache.shiro.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,8 @@ public class YuyuexinxiController {
     @Autowired
     private YuyuexinxiService yuyuexinxiService;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     /**
      * 后端列表
@@ -118,10 +122,40 @@ public class YuyuexinxiController {
      */
     @RequestMapping("/add")
     public R add(@RequestBody YuyuexinxiEntity yuyuexinxi, HttpServletRequest request) {
+        Integer zuoweiId = yuyuexinxi.getZuowei();
+        Integer zixishiId = yuyuexinxi.getZixishiid();
+//        System.out.println(zixishiId);
+//        System.out.println(zuoweiId);
         yuyuexinxi.setId(new Date().getTime() + new Double(Math.floor(Math.random() * 1000)).longValue());
         //ValidatorUtils.validateEntity(yuyuexinxi);
-        yuyuexinxiService.insert(yuyuexinxi);
-        return R.ok();
+        try {
+            // 3. 更新座位状态为0（锁定）
+            String tableName = "seats_" + zixishiId;
+
+            // 安全校验表名格式
+            if (!tableName.matches("seats_\\d+")) {
+                return R.error("非法表名");
+            }
+
+            // 执行锁定操作（确保原子性）
+            int updatedRows = jdbcTemplate.update(
+                    "UPDATE " + tableName + " SET status = 0 WHERE id = ? AND status = 1",
+                    zuoweiId
+            );
+
+            if (updatedRows == 0) {
+                // 座位已被占用或不存在
+                return R.error("座位不可用");
+            }
+
+            // 4. 插入预约记录
+            yuyuexinxiService.insert(yuyuexinxi);
+
+            return R.ok();
+        } catch (DataAccessException e) {
+            // 数据库错误自动触发事务回滚
+            return R.error("数据库操作失败：" + e.getMessage());
+        }
     }
 
 

@@ -51,11 +51,6 @@ public class QiandaoxinxiEntity<T> implements Serializable {
     @DateTimeFormat
     private Date qiandaoshijian;
 
-    /**
-     * 人脸识别
-     */
-
-    private String renlianshibie;
 
     /**
      * 签到备注
@@ -136,19 +131,6 @@ public class QiandaoxinxiEntity<T> implements Serializable {
         return qiandaoshijian;
     }
 
-    /**
-     * 设置：人脸识别
-     */
-    public void setRenlianshibie(String renlianshibie) {
-        this.renlianshibie = renlianshibie;
-    }
-
-    /**
-     * 获取：人脸识别
-     */
-    public String getRenlianshibie() {
-        return renlianshibie;
-    }
 
     /**
      * 设置：签到备注

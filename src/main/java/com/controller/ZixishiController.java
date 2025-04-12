@@ -10,16 +10,16 @@ import com.service.ZixishiService;
 import com.utils.MPUtil;
 import com.utils.PageUtils;
 import com.utils.R;
+import org.apache.shiro.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 自习室
@@ -34,7 +34,8 @@ public class ZixishiController {
     @Autowired
     private StoreupService storeupService;
 
-
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     /**
      * 后端列表
      */
@@ -133,10 +134,56 @@ public class ZixishiController {
     public R update(@RequestBody ZixishiEntity zixishi, HttpServletRequest request) {
         //ValidatorUtils.validateEntity(zixishi);
         zixishiService.updateById(zixishi);//全部更新
-        return R.ok();
+        try {
+            // 删除旧表
+            jdbcTemplate.execute("DROP TABLE IF EXISTS seats_" + zixishi.getId()); // 按自习室ID区分表
+
+            // 创建新表
+            jdbcTemplate.execute("CREATE TABLE seats_" + zixishi.getId() + " (" +
+                    "id INT PRIMARY KEY, " +
+                    "status INT DEFAULT 1" +
+                    ")");
+
+            // 批量插入新座位（优化版）
+            String sql = "INSERT INTO seats_" + zixishi.getId() + " (id) VALUES (?)";
+            List<Object[]> batchArgs = new ArrayList<>();
+//            System.out.println(zixishi.getZuowei());
+            for (int i = 1; i <= zixishi.getZuowei(); i++) {
+                batchArgs.add(new Object[]{i});
+            }
+            jdbcTemplate.batchUpdate(sql, batchArgs);
+
+            return R.ok();
+        } catch (DataAccessException e) {
+            throw new RuntimeException("座位表更新失败：" + e.getMessage()); // 触发事务回滚
+        }
     }
 
+    @GetMapping("/seats/{zixishiId}")
+    public ResponseEntity<List<Map<String, Object>>> getSeats(
+            @PathVariable Long zixishiId
+    ) {
+        String tableName = "seats_" + zixishiId; // 动态表名
 
+        // 1. 验证表是否存在
+        if (!isTableExist(tableName)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // 2. 查询座位数据
+        List<Map<String, Object>> seats = jdbcTemplate.queryForList(
+                "SELECT id, status FROM " + tableName + " ORDER BY id"
+        );
+
+        return ResponseEntity.ok(seats);
+    }
+
+    private boolean isTableExist(String tableName) {
+        // MySQL检查表是否存在
+        String sql = "SELECT COUNT(*) FROM information_schema.tables " +
+                "WHERE table_schema = DATABASE() AND table_name = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, tableName) > 0;
+    }
     /**
      * 删除
      */

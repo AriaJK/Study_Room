@@ -37,10 +37,21 @@ public class QuxiaoyuyueEntity<T> implements Serializable {
      */
     @TableId
     private Long id;
+
+
+    /**
+     * 自习室序号
+     */
+    private Integer zixishiid;
+
+    /**
+     * 座位
+     */
+
+    private Integer zuowei;
     /**
      * 预约单号
      */
-
     private String yuyuedanhao;
 
     /**
@@ -106,12 +117,6 @@ public class QuxiaoyuyueEntity<T> implements Serializable {
     private Long crossrefid;
 
     /**
-     * 是否审核
-     */
-
-    private String sfsh;
-
-    /**
      * 审核回复
      */
 
@@ -143,7 +148,33 @@ public class QuxiaoyuyueEntity<T> implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    /**
+     * 设置：自习室序号
+     */
+    public void setZixishiid(Integer zixishiid) {
+        this.zixishiid = zixishiid;
+    }
 
+    /**
+     * 获取：自习室序号
+     */
+    public Integer getZixishiid() {
+        return zixishiid;
+    }
+
+    /**
+     * 设置：座位
+     */
+    public void setZuowei(Integer zuowei) {
+        this.zuowei = zuowei;
+    }
+
+    /**
+     * 获取：座位
+     */
+    public Integer getZuowei() {
+        return zuowei;
+    }
     /**
      * 设置：预约单号
      */
@@ -296,20 +327,6 @@ public class QuxiaoyuyueEntity<T> implements Serializable {
      */
     public Long getCrossrefid() {
         return crossrefid;
-    }
-
-    /**
-     * 设置：是否审核
-     */
-    public void setSfsh(String sfsh) {
-        this.sfsh = sfsh;
-    }
-
-    /**
-     * 获取：是否审核
-     */
-    public String getSfsh() {
-        return sfsh;
     }
 
     /**

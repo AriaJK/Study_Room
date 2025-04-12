@@ -247,6 +247,7 @@
                              }
                          }
                          var table = localStorage.getItem('crossTable');
+                         console.log('s');
                          this.$http.post(table+'/update', obj).then(res => {});
                      } else {
                             crossuserid=Number(localStorage.getItem('userid'));

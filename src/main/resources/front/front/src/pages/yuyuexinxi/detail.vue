@@ -139,12 +139,14 @@
           if(this.$route.query.detailObj) {
             this.detail = JSON.parse(this.$route.query.detailObj);
           }
+		//   console.log(this.tablename);
           this.$http.get(this.tablename + '/detail/'  + this.detail.id, {}).then(res => {
             if (res.data.code == 0) {
               this.detail = res.data.data;
               this.detailBanner = this.detail.tupian ? this.detail.tupian.split(",") : [];
               this.title = this.detail.qiandaozhuangtai;
               this.$forceUpdate();
+			//   console.log('sss');
             }
           });
 
@@ -182,6 +184,7 @@
         }).then(() => {
           this.detail.sfsh = this.shForm.sfsh;
           this.detail.shhf = this.shForm.shhf;
+		//   console.log('ss');
           this.$http.post(`${this.tablename}/update`, this.detail).then(res => {
             if (res.data.code == 0) {
               this.sfshVisiable = false;
