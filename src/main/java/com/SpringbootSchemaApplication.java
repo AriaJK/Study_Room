@@ -1,5 +1,5 @@
 package com;
-//自习室1
+//自习室
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
