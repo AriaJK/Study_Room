@@ -10,12 +10,6 @@
     <div class="detail-preview" :style='{"minHeight":"600px","width":"1000px","margin":"10px auto","position":"relative","height":"auto"}'>
       <div class="attr" :style='{"minHeight":"400px","padding":"20px","position":"relative","background":"#fff","display":"flex","borderRadius":"8px","boxShadow":"0 1px 6px rgba(0, 0, 0, .08)"}'>
         <div class="info" :style='{"width":"100%","padding":"20px","background":"#f8f9fa","borderRadius":"8px"}'>
-          <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","alignItems":"center","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
-            <div :style='{"color":"#2e61e1","fontSize":"18px","fontWeight":"500"}'>
-              {{detail.qiandaozhuangtai}}
-            </div>
-          </div>
-
           <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
             <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>预约单号</div>
             <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.yuyuedanhao}}</div>
@@ -28,17 +22,44 @@
             <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>座位</div>
             <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.zuowei}}</div>
           </div>
+
+          <!-- 预约开始时间 -->
           <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
-            <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>签到状态</div>
-            <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.qiandaozhuangtai}}</div>
+            <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>预约开始时间</div>
+            <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.yuyueStart || '-'}}</div>
           </div>
+          <!-- 预约结束时间 -->
           <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
-            <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>预约时间</div>
-            <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.yuyueshijian}}</div>
+            <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>预约结束时间</div>
+            <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.yuyueEnd || '-'}}</div>
+          </div>
+
+          <!-- 新增显示：签到时间 -->
+          <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
+            <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>签到时间</div>
+            <div :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{ detail.qiandaoshijian || '-' }}</div>
+          </div>
+
+          <!-- 新增显示：签退时间 -->
+          <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
+            <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>签退时间</div>
+            <div :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{ detail.qiantuishijian || '-' }}</div>
+          </div>
+
+          <!-- 新增显示：自习时长（分钟） -->
+          <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
+            <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>自习时长min</div>
+            <div :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{ detail.zixishichang != null ? detail.zixishichang : '-' }}</div>
+          </div>
+
+          <!-- 是否违规 -->
+          <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
+            <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>是否违规</div>
+            <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.shifouweigui || '否'}}</div>
           </div>
           <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
             <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>备注</div>
-            <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.beizhu}}</div>
+            <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.beizhu || '无备注'}}</div>
           </div>
           <div class="item" :style='{"padding":"12px 16px","margin":"0 0 12px 0","background":"#fff","justifyContent":"space-between","display":"flex","borderRadius":"4px","boxShadow":"0 1px 3px rgba(0, 0, 0, .05)"}'>
             <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>学号</div>
@@ -52,9 +73,7 @@
             <div class="lable" :style='{"padding":"0 16px 0 0","color":"#333","textAlign":"right","width":"100px","fontSize":"14px","lineHeight":"24px","height":"24px","fontWeight":"500"}'>手机</div>
             <div  :style='{"flex":1,"padding":"0 16px","fontSize":"14px","lineHeight":"24px","color":"#666","height":"24px"}'>{{detail.shouji}}</div>
           </div>
-          <!-- 已删除“取消预约”“签到”“审核”按钮 -->
         </div>
-
       </div>
 
       <!-- 返回按钮区域 -->
@@ -80,7 +99,6 @@
         </el-button>
       </div>
 
-      <!-- 已删除下方的el-tabs标签页区域 -->
       <el-dialog title="审核" :visible.sync="sfshVisiable" width="50%" :style="{borderRadius:'8px'}">
         <el-form ref="shForm" :model="shForm" label-width="80px">
           <el-form-item label="审核状态">
@@ -106,7 +124,6 @@
 <script>
 import CountDown from '@/components/CountDown';
 export default {
-  //数据集合
   data() {
     return {
       tablename: 'yuyuexinxi',
@@ -120,7 +137,7 @@ export default {
       detailBanner: [],
       endTime: 0,
       detail: {},
-      activeName: 'first', // 可保留（无实际影响）
+      activeName: 'first',
       total: 1,
       pageSize: 5,
       pageSizes: [10,20,30,50],
@@ -141,9 +158,8 @@ export default {
   created() {
     this.init();
   },
-  //方法集合
   methods: {
-    // 返回列表页方法
+    // 已删除：formatDate时间格式化方法
     goBack() {
       this.$router.push('/index/yuyuexinxi');
     },
@@ -152,10 +168,11 @@ export default {
       if(this.$route.query.detailObj) {
         this.detail = JSON.parse(this.$route.query.detailObj);
       }
+      // 已删除：关联查询签到/签退表的逻辑，仅保留基础detail查询
       this.$http.get(this.tablename + '/detail/'  + this.detail.id, {}).then(res => {
         if (res.data.code == 0) {
           this.detail = res.data.data;
-          this.title = this.detail.qiandaozhuangtai;
+          this.title = this.detail.mingcheng; // 替换原qiandaozhuangtai，避免空值报错
           this.$forceUpdate();
         }
       });
@@ -224,7 +241,6 @@ export default {
       }
       window.open(this.baseUrl+file)
     },
-    // 补充isAuth方法（避免按钮权限判断报错）
     isAuth() {
       return true;
     }
@@ -236,6 +252,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+/* 样式部分保持不变 */
 .detail-preview {
   .attr {
   }
