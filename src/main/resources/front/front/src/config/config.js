@@ -1,5 +1,5 @@
 export default {
-    baseUrl: '/study_room/',  // 使用相对路径
+    baseUrl: 'http://localhost:8080/study_room/',
     indexNav: [
         {
             name: '首页',

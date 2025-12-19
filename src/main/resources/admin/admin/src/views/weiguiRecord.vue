@@ -42,7 +42,7 @@
         </el-form>
       </div>
 
-      <!-- 违规记录列表表格：纯驼峰字段 -->
+      <!-- 违规记录列表表格：新增ID列 -->
       <div class="table-container">
         <el-table
           :data="tableData"
@@ -52,6 +52,12 @@
           style="width: 100%"
           :empty-text="loading ? '加载中...' : '暂无违规记录数据'"
         >
+          <!-- 新增：数据库主键ID列 -->
+          <el-table-column prop="id" label="记录ID" width="100" align="center">
+            <template slot-scope="scope">
+              <span class="id-text">{{ scope.row.id }}</span>
+            </template>
+          </el-table-column>
           <!-- 学号 -->
           <el-table-column prop="xuehao" label="学号" width="180" />
           <!-- 姓名 -->
@@ -149,7 +155,7 @@
           <el-input
             v-model="addForm.weiguiBeizhu"
             type="textarea"
-            placeholder="输入违规详情（如：在自习室食用泡面）"
+            placeholder="输入违规详情（如：2025-10-20 14:00在大自习室21号座位未签到）"
             rows="3"
           />
         </el-form-item>
@@ -314,7 +320,7 @@ export default {
         const res = response.data;
         // 适配后端Map返回格式
         if (res.code === 0) {
-          this.tableData = res.data || []; // 列表数据（Map数组）
+          this.tableData = res.data || []; // 列表数据（包含id字段）
           this.total = res.total || 0;     // 总条数
         } else {
           this.tableData = [];
@@ -350,7 +356,7 @@ export default {
               weiguiShijian: this.addForm.weiguiShijian,
               weiguiLeixing: this.addForm.weiguiLeixing,
               weiguiBeizhu: this.addForm.weiguiBeizhu.trim(),
-              isValid: 1 // 有效标记
+              isValid: 1 // 有效标记：申诉通过后会被改为0
             };
 
             // 执行新增请求
@@ -393,7 +399,7 @@ export default {
     async deleteViolation(row) {
       try {
         await MessageBox.confirm(
-          `确定要删除【${row.xingming || row.xuehao}】的这条违规记录吗？`,
+          `确定要删除【记录ID：${row.id} | ${row.xingming || row.xuehao}】的这条违规记录吗？`,
           "提示",
           { type: "warning" }
         );
@@ -496,6 +502,11 @@ export default {
       .type-text {
         color: #e6a23c;
         font-weight: 600;
+      }
+      // 新增ID文本样式
+      .id-text {
+        color: #409eff;
+        font-weight: 500;
       }
     }
   }

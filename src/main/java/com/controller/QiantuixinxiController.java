@@ -5,16 +5,13 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.entity.QiandaoxinxiEntity;
 import com.entity.QiantuixinxiEntity;
-import com.entity.YuyuexinxiEntity;
+import com.entity.view.QiantuixinxiView;
 import com.service.QiandaoxinxiService;
 import com.service.QiantuixinxiService;
-import com.service.YuyuexinxiService;
 import com.utils.MPUtil;
 import com.utils.PageUtils;
 import com.utils.R;
 import org.apache.shiro.dao.DataAccessException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,23 +24,16 @@ import java.util.*;
 
 /**
  * 签退信息
- * 后端接口（签退保存加入预约/时间校验与违纪记录逻辑）
+ * 后端接口
  */
 @RestController
 @RequestMapping("/qiantuixinxi")
 public class QiantuixinxiController {
-    // 添加 logger 声明（不要导入别的 logger 字段）
-    private static final Logger logger = LoggerFactory.getLogger(QiantuixinxiController.class);
-
     @Autowired
     private QiantuixinxiService qiantuixinxiService;
 
     @Autowired
     private QiandaoxinxiService qiandaoxinxiService;
-
-    // 新增注入：用于校验/更新对应预约记录
-    @Autowired
-    private YuyuexinxiService yuyuexinxiService;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -103,7 +93,7 @@ public class QiantuixinxiController {
     public R query(QiantuixinxiEntity qiantuixinxi) {
         EntityWrapper<QiantuixinxiEntity> ew = new EntityWrapper<QiantuixinxiEntity>();
         ew.allEq(MPUtil.allEQMapPre(qiantuixinxi, "qiantuixinxi"));
-        com.entity.view.QiantuixinxiView qiantuixinxiView = qiantuixinxiService.selectView(ew);
+        QiantuixinxiView qiantuixinxiView = qiantuixinxiService.selectView(ew);
         return R.ok("查询签到信息成功").put("data", qiantuixinxiView);
     }
 
@@ -126,153 +116,92 @@ public class QiantuixinxiController {
         return R.ok().put("data", qiantuixinxi);
     }
 
-    // ========== 新增：根据预约单号查询签退记录 ==========
-    @IgnoreAuth
-    @GetMapping("/getByYuyueDanHao/{yuyuedanhao}")
-    public R getByYuyueDanHao(@PathVariable("yuyuedanhao") String yuyuedanhao) {
-        QiantuixinxiEntity qiantuixinxi = qiantuixinxiService.getByYuyueDanHao(yuyuedanhao);
-        return R.ok().put("data", qiantuixinxi);
-    }
 
     /**
-     * 后端保存（修复并加入预约/时间校验）
+     * 后端保存
      */
     @RequestMapping("/save")
-    @Transactional(rollbackFor = Exception.class) // 事务保障
     public R save(@RequestBody QiantuixinxiEntity qiantuixinxi, HttpServletRequest request) {
+
         try {
             Integer zuoweiId = qiantuixinxi.getZuowei();
             Integer zixishiId = qiantuixinxi.getZixishiid();
             String xuehao = qiantuixinxi.getXuehao();
-            String yuyuedanhao = qiantuixinxi.getYuyuedanhao();
-
-            // ========== 强制处理签退时间（若前端未传则使用当前时间） ==========
-            Date qiantuishijian = qiantuixinxi.getQiantuishijian();
-            if (qiantuishijian == null) {
-                qiantuishijian = new Date();
-                qiantuixinxi.setQiantuishijian(qiantuishijian);
-            }
-
-            // 非空校验
-            if (zuoweiId == null || zuoweiId <= 0) {
-                return R.error("座位ID不能为空且必须为正数");
-            }
-            if (zixishiId == null || zixishiId <= 0) {
-                return R.error("自习室ID不能为空且必须为正数");
-            }
-            if (xuehao == null || xuehao.trim().isEmpty()) {
-                return R.error("学号不能为空");
-            }
-            if (yuyuedanhao == null || yuyuedanhao.trim().isEmpty()) {
-                return R.error("预约单号不能为空");
-            }
-
-            // 查找对应预约记录（按预约单号）
-            YuyuexinxiEntity yuyue = yuyuexinxiService.selectOne(new EntityWrapper<YuyuexinxiEntity>().eq("yuyuedanhao", yuyuedanhao));
-            if (yuyue == null) {
-                return R.error("未找到对应的预约记录，无法签退");
-            }
-
-            // 若预约尚未签到，则不能签退
-            if (!"已签到".equals(yuyue.getQiandaozhuangtai())) {
-                return R.error("该预约尚未签到，不能进行签退");
-            }
-
-            // 检查是否已经超过预约结束时间
-            Date yuyueEnd = yuyue.getYuyueEnd();
-            if (yuyueEnd == null) {
-                return R.error("预约结束时间缺失，无法签退");
-            }
-
-            Date now = new Date();
-            if (now.getTime() > yuyueEnd.getTime()) {
-                // 超时：不要保存签退记录，改为记录违纪（weigui_flag=1）
-                YuyuexinxiEntity updateWeigui = new YuyuexinxiEntity();
-                updateWeigui.setId(yuyue.getId());
-                updateWeigui.setWeiguiFlag(1);
-                yuyuexinxiService.updateById(updateWeigui);
-                return R.error("已超过预约结束时间，不能签退；已记录违纪（weigui_flag=1）");
-            }
-
-            // ====== 到这里表示允许签退（当前时间 <= 预约结束时间） ======
-            // 找到对应的最新签到记录以计算时长
+//        System.out.println(zixishiId);
+//        System.out.println(zuoweiId);
             QiandaoxinxiEntity qiandaoxinxi = qiandaoxinxiService.selectOne(
                     new EntityWrapper<QiandaoxinxiEntity>()
                             .eq("xuehao", xuehao)
-                            .orderBy("id", false)
+                            .orderBy("id", false) // 获取最新签到记录
             );
             if (qiandaoxinxi == null) {
-                return R.error("未找到对应的签到记录，无法计算自习时长");
+                return R.error("未找到对应的签到记录");
             }
+//        qiantuixinxi.setId(new Date().getTime() + new Double(Math.floor(Math.random() * 1000)).longValue());
+            qiantuixinxi.setId(qiandaoxinxi.getId());
             Date qiandaoshijian = qiandaoxinxi.getQiandaoshijian();
-            if (qiandaoshijian == null) {
-                return R.error("签到时间缺失，无法签退");
-            }
-
-            // 计算自习时长（分钟，保留一位小数）
+            Date qiantuishijian = qiantuixinxi.getQiantuishijian();
             long durationInMillis = qiantuishijian.getTime() - qiandaoshijian.getTime();
             if (durationInMillis < 0) {
                 return R.error("签退时间不能早于签到时间");
             }
-            double minutes = durationInMillis / 60000.0;
-            double durationMinutes = Math.round(minutes * 10.0) / 10.0;
+            double durationMinutes = Math.round(durationInMillis / 600.0) / 10.0;
             qiantuixinxi.setZixishichang(durationMinutes);
-
-            // 主键使用唯一生成（避免冲突）
-            qiantuixinxi.setId(new Date().getTime() + new Double(Math.floor(Math.random() * 1000)).longValue());
-
-            // 更新座位状态（尝试更新，不阻断签退主流程）
+//            System.out.println(qiandaoshijian);
+//            System.out.println(qiantuishijian);
+//            System.out.println(durationMinutes);
+            // 3. 更新座位状态为0（锁定）
             String tableName = "seats_" + zixishiId;
+
+            // 安全校验表名格式
             if (!tableName.matches("seats_\\d+")) {
                 return R.error("非法表名");
             }
-            try {
-                jdbcTemplate.update(
-                        "UPDATE " + tableName + " SET status = 1 WHERE id = ?",
-                        zuoweiId
-                );
-            } catch (Exception e) {
-                // 只记录，不阻断签退
-                logger.warn("更新座位状态失败：自习室{} 座位{}，原因：{}", zixishiId, zuoweiId, e.getMessage());
+
+            // 执行锁定操作（确保原子性）
+            int updatedRows = jdbcTemplate.update(
+                    "UPDATE " + tableName + " SET status = 1 WHERE id = ? AND status = 0",
+                    zuoweiId
+            );
+            if (updatedRows == 0) {
+                return R.error("座位状态更新失败");
             }
 
-            // 保存签退记录
             qiantuixinxiService.insert(qiantuixinxi);
 
-            // 更新学生累计自习时长（容错写法）
-            try {
-                jdbcTemplate.update(
-                        "UPDATE xuesheng SET zixishichang = COALESCE(zixishichang, 0) + ? WHERE xuehao = ?",
-                        durationMinutes,
-                        xuehao
-                );
-            } catch (Exception e) {
-                logger.warn("更新学生累计自习时长失败，学号：{}，原因：{}", xuehao, e.getMessage());
-            }
+            // 更新学生自习时长
+            jdbcTemplate.update(
+                    "UPDATE xuesheng SET zixishichang = COALESCE(zixishichang, 0) + ? WHERE xuehao = ?",
+                    durationMinutes,
+                    xuehao
+            );
 
-            return R.ok("签退成功");
+            return R.ok();
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            // 数据库错误自动触发事务回滚
             return R.error("数据库操作失败：" + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        }catch (Exception e) {
             return R.error("系统错误：" + e.getMessage());
         }
+
     }
 
     /**
-     * 前端保存（保留）
+     * 前端保存
      */
     @RequestMapping("/add")
     public R add(@RequestBody QiantuixinxiEntity qiantuixinxi, HttpServletRequest request) {
         qiantuixinxi.setId(new Date().getTime() + new Double(Math.floor(Math.random() * 1000)).longValue());
+        //ValidatorUtils.validateEntity(qiantuixinxi);
         qiantuixinxiService.insert(qiantuixinxi);
         return R.ok();
     }
 
+
     @RequestMapping("/fenxi")
     public R fenxi() {
         try {
+            // 修改SQL查询所有字段
             String sql = "SELECT * FROM xuesheng ORDER BY xuehao";
             List<Map<String, Object>> data = jdbcTemplate.queryForList(sql);
             return R.ok().put("data", data);
@@ -280,16 +209,19 @@ public class QiantuixinxiController {
             return R.error("查询失败：" + e.getMessage());
         }
     }
-
     /**
      * 修改
      */
     @RequestMapping("/update")
     @Transactional
     public R update(@RequestBody QiantuixinxiEntity qiantuixinxi, HttpServletRequest request) {
+        //ValidatorUtils.validateEntity(qiantuixinxi);
         qiantuixinxiService.updateById(qiantuixinxi);//全部更新
         return R.ok();
+
+
     }
+
 
     /**
      * 删除
@@ -346,4 +278,6 @@ public class QiantuixinxiController {
         int count = qiantuixinxiService.selectCount(wrapper);
         return R.ok().put("count", count);
     }
+
+
 }

@@ -91,9 +91,6 @@ public class QiantuixinxiEntity<T> implements Serializable {
      * 班级
      */
 
-
-    private String yuyuedanhao;
-
     private String banji;
 
     /**
@@ -248,14 +245,6 @@ public class QiantuixinxiEntity<T> implements Serializable {
      */
     public String getBanji() {
         return banji;
-    }
-
-    // 新增 get/set 方法
-    public String getYuyuedanhao() {
-        return yuyuedanhao;
-    }
-    public void setYuyuedanhao(String yuyuedanhao) {
-        this.yuyuedanhao = yuyuedanhao;
     }
 
     /**
