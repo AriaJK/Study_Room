@@ -8,6 +8,24 @@ export default {
 }
 </script>
 
+<template>
+  <div>
+    <router-view></router-view>
+    <ai-assistant-widget />
+  </div>
+</template>
+
+<script>
+import AiAssistantWidget from "./components/AiAssistantWidget.vue";
+
+export default {
+  name: "App",
+  components: {
+    AiAssistantWidget
+  }
+};
+</script>
+
 <style>
   * {
 	  box-sizing: border-box;
