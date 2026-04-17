@@ -48,3 +48,10 @@ mybatis-plus:
     call-setters-on-nulls: true  # 显示NULL字段（前端不会出现undefined）
     # MySQL兼容配置：NULL值处理
     jdbc-type-for-null: 'null'
+
+ai:
+  enabled: true
+  base-url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  api-key: "${DASHSCOPE_API_KEY:}"
+  model: "qwen-plus"
+  timeout-ms: 60000
