@@ -4,6 +4,7 @@ import com.service.AiAssistantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -15,17 +16,17 @@ public class AiAssistantController {
     private AiAssistantService aiAssistantService;
 
     @PostMapping("/chat")
-    public Map<String, Object> chat(@RequestBody Map<String, Object> req) {
-        return aiAssistantService.chat(req);
+    public Map<String, Object> chat(@RequestBody Map<String, Object> req, HttpServletRequest request) {
+        return aiAssistantService.chat(req, request);
     }
 
     @PostMapping("/summary")
-    public Map<String, Object> summary(@RequestBody Map<String, Object> req) {
-        return aiAssistantService.summary(req);
+    public Map<String, Object> summary(@RequestBody Map<String, Object> req, HttpServletRequest request) {
+        return aiAssistantService.summary(req, request);
     }
 
     @PostMapping("/recommend")
-    public Map<String, Object> recommend(@RequestBody Map<String, Object> req) {
-        return aiAssistantService.recommend(req);
+    public Map<String, Object> recommend(@RequestBody Map<String, Object> req, HttpServletRequest request) {
+        return aiAssistantService.recommend(req, request);
     }
 }

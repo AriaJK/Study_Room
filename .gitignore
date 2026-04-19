@@ -29,3 +29,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Frontend (Vue) ###
+src/main/resources/front/front/node_modules/
+src/main/resources/front/front/node_modules/.cache/
+src/main/resources/front/front/dist/
+src/main/resources/front/front/.cache/
