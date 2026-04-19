@@ -20,6 +20,10 @@ public class QwenLlmClient implements LlmClient {
     private final String apiKey;
     private final String model;
 
+    private final int defaultMaxTokens;
+    private final double defaultTemperature;
+    private final double defaultTopP;
+
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -28,12 +32,19 @@ public class QwenLlmClient implements LlmClient {
             @Value("${ai.base-url}") String baseUrl,
             @Value("${ai.api-key}") String apiKey,
             @Value("${ai.model:qwen-plus}") String model,
-            @Value("${ai.timeout-ms:8000}") int timeoutMs
+            @Value("${ai.timeout-ms:8000}") int timeoutMs,
+            @Value("${ai.max-tokens:1500}") int defaultMaxTokens,
+            @Value("${ai.temperature:0.7}") double defaultTemperature,
+            @Value("${ai.top-p:1.0}") double defaultTopP
     ) {
         this.enabled = enabled;
         this.baseUrl = baseUrl;
         this.apiKey = apiKey;
         this.model = model;
+
+        this.defaultMaxTokens = defaultMaxTokens;
+        this.defaultTemperature = defaultTemperature;
+        this.defaultTopP = defaultTopP;
 
         // 让超时真正生效
         SimpleClientHttpRequestFactory f = new SimpleClientHttpRequestFactory();
@@ -44,6 +55,12 @@ public class QwenLlmClient implements LlmClient {
 
     @Override
     public String chat(String systemPrompt, String userPrompt) {
+        // 兼容旧调用：仍然使用默认 maxTokens/temperature
+        return chat(systemPrompt, userPrompt, null, null);
+    }
+
+    @Override
+    public String chat(String systemPrompt, String userPrompt, Integer maxTokens, Double temperature) {
         if (!enabled) {
             throw new RuntimeException("AI is disabled (ai.enabled=false)");
         }
@@ -59,10 +76,13 @@ public class QwenLlmClient implements LlmClient {
 
         String url = normalizeBaseUrl(baseUrl) + "/chat/completions";
 
+        int finalMaxTokens = (maxTokens != null && maxTokens > 0) ? maxTokens : defaultMaxTokens;
+        double finalTemperature = (temperature != null && temperature >= 0) ? temperature : defaultTemperature;
+
         // --- 请求体（OpenAI兼容）---
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("model", model);
-        body.put("max_tokens", 1500);   // 先保守一点
+        body.put("max_tokens", finalMaxTokens);
 
         List<Map<String, String>> messages = new ArrayList<>();
         if (systemPrompt != null && !systemPrompt.trim().isEmpty()) {
@@ -71,13 +91,12 @@ public class QwenLlmClient implements LlmClient {
         messages.add(msg("user", userPrompt));
         body.put("messages", messages);
 
-        // 可调参数（MVP建议不要太高，避免胡说）
-        body.put("temperature", 0.7);
+        body.put("temperature", finalTemperature);
+        body.put("top_p", defaultTopP);
 
         // --- Header ---
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        // 通义OpenAI兼容：Bearer
         headers.set("Authorization", "Bearer " + apiKey);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
@@ -97,7 +116,7 @@ public class QwenLlmClient implements LlmClient {
             }
 
             String respBody = new String(bytes, java.nio.charset.StandardCharsets.UTF_8);
-            if (respBody == null || respBody.trim().isEmpty()) {
+            if (respBody.trim().isEmpty()) {
                 throw new RuntimeException("LLM empty response body");
             }
 
@@ -130,7 +149,6 @@ public class QwenLlmClient implements LlmClient {
             return text.trim();
 
         } catch (HttpStatusCodeException e) {
-            // 这里能拿到更详细的错误响应 body（排错非常有用）
             String errBody = e.getResponseBodyAsString(java.nio.charset.StandardCharsets.UTF_8);
             throw new RuntimeException("Call Qwen failed: http=" + e.getStatusCode().value()
                     + ", body=" + safe(errBody), e);

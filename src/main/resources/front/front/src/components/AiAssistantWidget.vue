@@ -16,38 +16,95 @@
           </div>
         </div>
 
-        <div class="ai-body" ref="scrollBody">
-          <div v-for="(m, idx) in messages" :key="idx" class="ai-msg">
-            <div class="ai-msg-role" :class="m.role">
-              {{ m.role === 'user' ? '我' : 'AI' }}
+        <div class="ai-layout">
+          <!-- 左侧会话栏 -->
+          <div class="ai-sidebar" :class="{ collapsed: sidebarCollapsed }">
+            <div class="ai-sidebar-top">
+              <div class="ai-sidebar-title" v-if="!sidebarCollapsed">Chats</div>
+              <div class="ai-sidebar-actions">
+                <i class="el-icon-plus" title="新建会话" @click="createSession"></i>
+                <i
+                    :class="sidebarCollapsed ? 'el-icon-arrow-right' : 'el-icon-arrow-left'"
+                    :title="sidebarCollapsed ? '展开' : '收起'"
+                    @click="sidebarCollapsed = !sidebarCollapsed"
+                ></i>
+              </div>
             </div>
-            <div class="ai-msg-bubble" :class="m.role">
-              <div class="ai-msg-text" v-html="formatText(m.content)"></div>
-              <div class="ai-msg-time" v-if="m.time">{{ m.time }}</div>
+
+            <div class="ai-sidebar-list" v-if="!sidebarCollapsed">
+              <div
+                  v-for="s in sessions"
+                  :key="s.id"
+                  class="ai-session-item"
+                  :class="{ active: s.id === activeSessionId }"
+                  @click="selectSession(s.id)"
+              >
+                <!-- 标题 -->
+                <div class="ai-session-title">
+                  {{ s.title || ('Chat #' + s.id) }}
+                </div>
+
+                <!-- 更多按钮 + 下拉菜单（只包含删除） -->
+                <div class="ai-session-more" @click.stop>
+                  <i
+                      class="el-icon-more"
+                      title="更多"
+                      @click="toggleSessionMenu(s.id)"
+                  ></i>
+
+                  <div class="ai-session-menu" v-if="sessionMenuOpenId === s.id">
+                    <div
+                        class="ai-session-menu-item danger"
+                        @mousedown.stop.prevent="deleteSessionConfirm(s)"
+                    >
+                      删除对话
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ai-session-empty" v-if="sessions.length === 0">
+                暂无会话，点击 + 新建
+              </div>
             </div>
           </div>
 
-          <div class="ai-tip" v-if="loading">AI 正在思考...</div>
-        </div>
+          <!-- 右侧聊天区 -->
+          <div class="ai-main">
+            <div class="ai-body" ref="scrollBody">
+              <div v-for="(m, idx) in messages" :key="idx" class="ai-msg">
+                <div class="ai-msg-role" :class="m.role">
+                  {{ m.role === 'user' ? '我' : 'AI' }}
+                </div>
+                <div class="ai-msg-bubble" :class="m.role">
+                  <div class="ai-msg-text" v-html="formatText(m.content)"></div>
+                  <div class="ai-msg-time" v-if="m.time">{{ m.time }}</div>
+                </div>
+              </div>
 
-        <div class="ai-footer">
-          <el-input
-              type="textarea"
-              :rows="3"
-              resize="none"
-              v-model="input"
-              placeholder="请将您遇到的问题告诉我，Shift + Enter 换行，Enter 发送"
-              @keydown.native="onKeyDown"
-          />
-          <div class="ai-footer-actions">
-            <el-button size="mini" @click="quickPlan">学习计划</el-button>
-            <el-button size="mini" @click="quickRecommend">推荐座位</el-button>
-            <el-button size="mini" @click="quickSummary">学习总结</el-button>
-            <el-button type="primary" size="mini" :loading="loading" @click="send">
-              发送
-            </el-button>
+              <div class="ai-tip" v-if="loading">AI 正在思考...</div>
+            </div>
+
+            <div class="ai-footer">
+              <el-input
+                  type="textarea"
+                  :rows="3"
+                  resize="none"
+                  v-model="input"
+                  placeholder="请将您遇到的问题告诉我，Shift + Enter 换行，Enter 发送"
+                  @keydown.native="onKeyDown"
+              />
+              <div class="ai-footer-actions">
+                <el-button size="mini" @click="quickPlan">学习计划</el-button>
+                <el-button size="mini" @click="quickRecommend">推荐座位</el-button>
+                <el-button size="mini" @click="quickSummary">学习总结</el-button>
+                <el-button type="primary" size="mini" :loading="loading" @click="send">
+                  发送
+                </el-button>
+              </div>
+              <div class="ai-disclaimer">内容由 AI 生成，仅供参考，请自行判断。</div>
+            </div>
           </div>
-          <div class="ai-disclaimer">内容由 AI 生成，仅供参考，请自行判断。</div>
         </div>
       </div>
     </transition>
@@ -60,8 +117,17 @@ export default {
   data() {
     return {
       visible: false,
+      sidebarCollapsed: false,
+
+      sessions: [],
+      activeSessionId: null,
+
       input: "",
       loading: false,
+
+      // 当前展开的会话菜单（只影响 UI，不改业务）
+      sessionMenuOpenId: null,
+
       messages: [
         {
           role: "assistant",
@@ -72,17 +138,39 @@ export default {
       ]
     };
   },
+
+  // 点击空白处自动关闭菜单（不影响其它逻辑）
+  mounted() {
+    document.addEventListener("click", this.onGlobalClickCloseMenu, true);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.onGlobalClickCloseMenu, true);
+  },
+
   methods: {
     // ===== UI =====
-    open() {
+    async open() {
+      console.log("### AiAssistantWidget.vue LOADED ###", Date.now());
       this.visible = true;
+      await this.ensureSessionsLoaded();
       this.$nextTick(this.scrollToBottom);
     },
     close() {
       this.visible = false;
+      this.sessionMenuOpenId = null; // 关闭窗口同时收起菜单
     },
     minimize() {
       this.visible = false;
+      this.sessionMenuOpenId = null; // 最小化同时收起菜单
+    },
+
+    onGlobalClickCloseMenu() {
+      // 任何地方点击都关掉菜单（菜单内部点击已 stop）
+      this.sessionMenuOpenId = null;
+    },
+
+    toggleSessionMenu(sessionId) {
+      this.sessionMenuOpenId = (this.sessionMenuOpenId === sessionId) ? null : sessionId;
     },
 
     nowStr() {
@@ -94,7 +182,6 @@ export default {
 
     formatText(t) {
       if (!t) return "";
-      // 基础转义 + 换行（MVP）
       return String(t)
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;")
@@ -102,7 +189,6 @@ export default {
     },
 
     onKeyDown(e) {
-      // Shift+Enter 换行；Enter 发送
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         this.send();
@@ -126,10 +212,7 @@ export default {
 
     // ===== HTTP helper =====
     postJson(url, payload) {
-      // 后端有 context-path=/study_room；若已带前缀则不重复拼
-      const finalUrl =
-          url && url.indexOf("/study_room") === 0 ? url : "/study_room" + url;
-
+      const finalUrl = url && url.indexOf("/study_room") === 0 ? url : "/study_room" + url;
       return this.$http.post(finalUrl, payload, {
         emulateJSON: false,
         headers: {
@@ -137,24 +220,184 @@ export default {
         }
       });
     },
+    getJson(url, params) {
+      const finalUrl = url && url.indexOf("/study_room") === 0 ? url : "/study_room" + url;
+      return this.$http.get(finalUrl, {
+        params: params || {},
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        }
+      });
+    },
+
+    // delete helper（只用于删除会话）
+    deleteJson(url) {
+      const finalUrl = url && url.indexOf("/study_room") === 0 ? url : "/study_room" + url;
+      return this.$http.delete(finalUrl, {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        }
+      });
+    },
+
+    // ===== Sessions =====
+    async ensureSessionsLoaded() {
+      try {
+        const res = await this.getJson("/api/ai/sessions");
+        const resp = res && res.data ? res.data : null;
+        const list = (resp && resp.data && resp.data.sessions) ? resp.data.sessions : [];
+        this.sessions = Array.isArray(list) ? list : [];
+
+        if (!this.sessions.length) {
+          await this.createSession();
+          return;
+        }
+
+        if (!this.activeSessionId) {
+          this.activeSessionId = this.sessions[0].id;
+        }
+
+        await this.loadMessages(this.activeSessionId);
+      } catch (e) {
+        this.pushAI("会话列表加载失败（可能未登录或接口未配置），你仍可继续临时对话。");
+      }
+    },
+
+    async createSession() {
+      try {
+        const res = await this.postJson("/api/ai/sessions", { title: "New Chat" });
+        const resp = res && res.data ? res.data : null;
+        const s = resp && resp.data ? resp.data.session : null;
+        if (s && s.id) {
+          await this.ensureSessionsLoaded();
+          this.activeSessionId = s.id;
+          await this.loadMessages(s.id);
+        }
+      } catch (e) {
+        this.pushAI("新建会话失败，请稍后再试。");
+      }
+    },
+
+    async selectSession(id) {
+      if (!id) return;
+      this.activeSessionId = id;
+      await this.loadMessages(id);
+    },
+
+    async loadMessages(sessionId) {
+      if (!sessionId) return;
+
+      try {
+        const res = await this.getJson(`/api/ai/sessions/${sessionId}/messages`, { limit: 80 });
+        const resp = res && res.data ? res.data : null;
+        const list = (resp && resp.data && resp.data.messages) ? resp.data.messages : [];
+
+        const arr = [];
+        for (const m of (Array.isArray(list) ? list : [])) {
+          arr.push({
+            role: (m.role === "user" ? "user" : "assistant"),
+            content: m.content,
+            time: this.nowStr()
+          });
+        }
+
+        if (!arr.length) {
+          arr.push({
+            role: "assistant",
+            content:
+                "你好，我是学习助手。你可以问我学习计划、复盘总结，也可以让我帮你推荐预约策略。",
+            time: this.nowStr()
+          });
+        }
+
+        this.messages = arr;
+        this.$nextTick(this.scrollToBottom);
+      } catch (e) {
+        this.pushAI("历史消息加载失败。");
+      }
+    },
+
+    // ✅ 删除对话：Element-UI MessageBox + 中文 + 美化（不改其它逻辑）
+    deleteSessionConfirm(session) {
+      console.log("### deleteSessionConfirm fired ###", session);
+      this.sessionMenuOpenId = null;
+
+      this.$confirm(
+          "确定要删除该对话吗？删除后无法恢复。",
+          "删除对话",
+          {
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+            type: "warning",
+            showClose: true,
+            closeOnClickModal: false,
+            closeOnPressEscape: true,
+
+            customClass: "ai-delete-confirm",
+            confirmButtonClass: "ai-btn-delete",
+            cancelButtonClass: "ai-btn-cancel"
+          }
+      )
+          .then(() => {
+            this.deleteSession(session.id);
+          })
+          .catch(() => {
+            // 取消/关闭：不处理
+          });
+    },
+
+    async deleteSession(sessionId) {
+      console.log("### deleteSession start ###", sessionId);
+      try {
+        const res = await this.$http.delete(`/study_room/api/ai/sessions/${sessionId}`);
+        console.log("### deleteSession response ###", res);
+
+        const resp = res && res.data ? res.data : null;
+        if (!resp || resp.code !== 0) {
+          this.$message.error("删除失败：" + ((resp && resp.msg) || "未知错误"));
+          return;
+        }
+
+        this.$message.success("删除成功");
+        await this.ensureSessionsLoaded();
+      } catch (e) {
+        console.log("### deleteSession exception ###", e);
+        this.$message.error("删除接口调用异常，请查看 Console/Network");
+      }
+    },
 
     // ===== Main chat =====
     async send() {
       const text = (this.input || "").trim();
       if (!text) return;
 
+      if (!this.activeSessionId) {
+        await this.ensureSessionsLoaded();
+      }
+
       this.pushUser(text);
       this.input = "";
       this.loading = true;
 
       try {
-        const res = await this.postJson("/api/ai/chat", { message: text });
+        const res = await this.postJson("/api/ai/chat", {
+          sessionId: this.activeSessionId,
+          message: text
+        });
         const resp = res && res.data ? res.data : null;
 
-        // 后端格式：{code,msg,data:{reply}}
-        const reply = resp && resp.data ? resp.data.reply : "";
+        const reply =
+            (resp && resp.data && resp.data.reply) ||
+            (resp && resp.data && resp.data.recommendation) ||
+            "";
+
+        const sid = resp && resp.data ? resp.data.sessionId : null;
+        if (sid) this.activeSessionId = sid;
+
         if (reply) this.pushAI(reply);
         else this.pushAI("我没有拿到有效回复，你可以再试一次。");
+
+        await this.ensureSessionsLoaded();
       } catch (e) {
         this.pushAI("AI 服务暂时不可用，请稍后再试。");
       } finally {
@@ -171,17 +414,20 @@ export default {
     },
 
     async quickRecommend() {
-      this.open();
+      await this.open();
       this.loading = true;
-      this.pushUser(
-          "帮我推荐一个空位多的自习室/座位（如果暂时拿不到实时空位，就给我选座策略）。"
-      );
+      this.pushUser("帮我推荐一个空位多的自习室/座位（如果暂时拿不到实时空位，就给我选座策略）。");
 
       try {
-        const res = await this.postJson("/api/ai/recommend", {});
+        const res = await this.postJson("/api/ai/recommend", {
+          sessionId: this.activeSessionId
+        });
         const resp = res && res.data ? res.data : null;
         const txt = resp && resp.data ? resp.data.recommendation : "";
-        this.pushAI(txt || "暂时无法给出推荐。");
+        if (txt) this.pushAI(txt);
+        else this.pushAI("暂时无法给出推荐。");
+
+        await this.ensureSessionsLoaded();
       } catch (e) {
         this.pushAI("推荐接口调用失败，请稍后再试。");
       } finally {
@@ -190,7 +436,7 @@ export default {
     },
 
     async quickSummary() {
-      this.open();
+      await this.open();
       this.$prompt("请输入本次学习时长（分钟）", "学习总结", {
         confirmButtonText: "生成总结",
         cancelButtonText: "取消",
@@ -203,11 +449,15 @@ export default {
 
             try {
               const res = await this.postJson("/api/ai/summary", {
+                sessionId: this.activeSessionId,
                 durationMinutes: Number(value)
               });
               const resp = res && res.data ? res.data : null;
               const txt = resp && resp.data ? resp.data.summaryText : "";
-              this.pushAI(txt || "暂时无法生成总结。");
+              if (txt) this.pushAI(txt);
+              else this.pushAI("暂时无法生成总结。");
+
+              await this.ensureSessionsLoaded();
             } catch (e) {
               this.pushAI("总结接口调用失败，请稍后再试。");
             } finally {
@@ -221,7 +471,6 @@ export default {
 </script>
 
 <style scoped>
-/* 右下角浮动圆球 */
 .ai-fab {
   position: fixed;
   right: 18px;
@@ -242,13 +491,12 @@ export default {
   user-select: none;
 }
 
-/* 浮窗（再放大一档） */
 .ai-window {
   position: fixed;
   right: 18px;
   bottom: 18px;
-  width: 520px;   /* 原 440 -> 更大 */
-  height: 720px;  /* 原 640 -> 更大 */
+  width: 820px; /* 留出侧边栏 */
+  height: 720px;
   background: #fff;
   border-radius: 12px;
   z-index: 10000;
@@ -281,6 +529,135 @@ export default {
   cursor: pointer;
 }
 
+.ai-layout {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* sidebar */
+.ai-sidebar {
+  width: 260px;
+  background: #fbfbfc;
+  border-right: 1px solid #ebeef5;
+  display: flex;
+  flex-direction: column;
+}
+.ai-sidebar.collapsed {
+  width: 54px;
+}
+.ai-sidebar-top {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  border-bottom: 1px solid #ebeef5;
+}
+.ai-sidebar-title {
+  font-weight: 700;
+  color: #111;
+}
+.ai-sidebar-actions i {
+  cursor: pointer;
+  margin-left: 10px;
+  color: #666;
+  font-size: 16px;
+}
+.ai-sidebar-list {
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.ai-session-item {
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #333;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ai-session-item.active {
+  border-color: #4169e1;
+  background: #ecf3ff;
+}
+
+.ai-session-title {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-session-more {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-session-more .el-icon-more {
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+}
+
+.ai-session-menu {
+  position: absolute;
+  top: 22px;
+  right: 0;
+  z-index: 99999;
+  width: 120px;
+  background: #fff;
+  border: 1px solid #ebeef5;
+  border-radius: 10px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.ai-session-menu-item {
+  padding: 10px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ai-session-menu-item:hover {
+  background: #f6f6f6;
+}
+
+.ai-session-menu-item.danger {
+  color: #f56c6c;
+}
+
+.ai-session-empty {
+  padding: 10px;
+  color: #999;
+  font-size: 13px;
+}
+
+/* main */
+.ai-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .ai-body {
   flex: 1;
   padding: 16px;
@@ -307,11 +684,11 @@ export default {
 }
 
 .ai-msg-bubble {
-  max-width: 410px; /* 配合窗口变大 */
+  max-width: 540px;
   padding: 12px 14px;
   border-radius: 12px;
   line-height: 1.6;
-  font-size: 16px; /* 原 15 -> 更护眼 */
+  font-size: 16px;
   position: relative;
   word-break: break-word;
 }
@@ -360,7 +737,6 @@ export default {
   color: #aaa;
 }
 
-/* Element-UI textarea 字体增大（Vue2 + scoped 需要 ::v-deep） */
 .ai-footer ::v-deep .el-textarea__inner {
   font-size: 15px;
   line-height: 1.55;
@@ -376,5 +752,66 @@ export default {
 .ai-slide-leave-to {
   transform: translateY(10px);
   opacity: 0;
+}
+
+/* ✅ 方案 A：直接把 MessageBox 的 z-index 提高（更激进，确保盖住 AI 窗口） */
+::v-deep .el-message-box__wrapper {
+  z-index: 999999 !important;
+}
+::v-deep .v-modal {
+  z-index: 999998 !important;
+}
+
+/* ✅ 删除确认弹窗美化（Element-UI MessageBox） */
+::v-deep .ai-delete-confirm {
+  border-radius: 14px;
+  overflow: hidden;
+  width: 420px;
+}
+
+::v-deep .ai-delete-confirm .el-message-box__header {
+  padding: 18px 18px 10px 18px;
+}
+
+::v-deep .ai-delete-confirm .el-message-box__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+}
+
+::v-deep .ai-delete-confirm .el-message-box__content {
+  padding: 8px 18px 0 18px;
+}
+
+::v-deep .ai-delete-confirm .el-message-box__message p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #444;
+}
+
+::v-deep .ai-delete-confirm .el-message-box__btns {
+  padding: 16px 18px 18px 18px;
+}
+
+/* 取消按钮（灰） */
+::v-deep .ai-delete-confirm .ai-btn-cancel {
+  border-radius: 10px;
+  padding: 9px 18px;
+}
+
+/* 删除按钮（红） */
+::v-deep .ai-delete-confirm .ai-btn-delete {
+  border-radius: 10px;
+  padding: 9px 18px;
+  background: #f56c6c;
+  border-color: #f56c6c;
+  color: #fff;
+}
+
+::v-deep .ai-delete-confirm .ai-btn-delete:hover,
+::v-deep .ai-delete-confirm .ai-btn-delete:focus {
+  background: #f78989;
+  border-color: #f78989;
+  color: #fff;
 }
 </style>
