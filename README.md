@@ -5,7 +5,7 @@
 
 ---
 
-## 🌟 核心功能
+## 核心功能
 
 ### 自习室功能
 1. **自习室与座位管理：**
@@ -36,7 +36,7 @@
 
 ---
 
-## 💡 技术栈
+## 技术栈
 
 | **组件**    | **技术选型**                      |
 |-------------|-----------------------------------|
@@ -106,7 +106,7 @@ npm run serve
 
 ---
 
-## 📂 项目结构
+## 项目结构
 
 ```text
 Study_Room/
@@ -122,3 +122,16 @@ Study_Room/
 ├── pom.xml                 # Maven 配置文件
 └── README.md               # 项目说明文档
 ```
+## 🖼️ 界面截图
+### 座位选座页面
+<img width="1878" height="912" alt="image" src="https://github.com/user-attachments/assets/dccdfb01-11a1-461d-b8b1-fd08c97f9b6c" />
+
+### 座位可约时间页面
+<img width="1869" height="904" alt="image" src="https://github.com/user-attachments/assets/6b5f4565-545a-4e90-a10e-14e27ba55716" />
+
+### AI 智能助手对话
+<img width="1862" height="909" alt="image" src="https://github.com/user-attachments/assets/df55fb31-f32e-4f31-98f6-93ea299bb5b6" />
+
+### 预约管理页面
+<img width="1881" height="916" alt="image" src="https://github.com/user-attachments/assets/742370bc-11b4-4042-be48-75a5b1e7e89a" />
+
